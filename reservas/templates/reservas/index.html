@@ -1,0 +1,768 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Index - Append Bootstrap Template</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+    <!-- Exemplo com Bootstrap Icons -->
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+
+    <!-- Main CSS File -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    
+
+    <!-- Fonts and Vendor CSS Files -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+</head>
+
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <!-- <img src="assets/img/logo.png" alt=""> -->
+                <h1 class="sitename">Coworking Space</h1><span>.</span>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="#hero" class="active">Início</a></li>
+                    <li><a href="#spaces">Espaços</a></li>
+                    <li><a href="#services">Serviços</a></li>
+                    <li><a href="#pricing">Preços</a></li>
+                    <li><a href="#contact">Contato</a></li>
+
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <a class="btn-getstarted" href="{% url 'lista_espacos' %}">Agendar Agora</a>
+
+
+        </div>
+    </header>
+
+    <main class="main">
+
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <img src="{% static 'img/hero-bg.jpg' %}" alt="Hero background image" class="img-fluid" data-aos="fade-in">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-10">
+                        <h2 data-aos="fade-up" data-aos-delay="100">Bem Vindo ao Nosso Espaço!</h2>
+                        <p data-aos="fade-up" data-aos-delay="200">
+                            Nós somos uma equipe que veio para inovar o seu modo de encontrar um Cowork!
+                        </p>
+                    </div>
+                    <div class="col-lg-5" data-aos="fade-up" data-aos-delay="300">
+                        <form action="{% url 'newsletter_signup' %}" method="post" class="php-email-form">
+                            {% csrf_token %}
+                            <div class="sign-up-form">
+                                <input type="email" name="email" placeholder="Seu email" required>
+                                <input type="submit" value="Inscrever-se">
+                            </div>
+                            <div class="loading">Carregando...</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Seu pedido de inscrição foi enviado. Obrigado!</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+        <!-- Clients Section -->
+        <section id="clients" class="clients section">
+
+            <div class="container" data-aos="fade-up">
+
+                <div class="row gy-4">
+
+                    <div class="col-xl-2 col-md-3 col-6 client-logo">
+                        <img src="{% static 'img/clients/client-1.png' %}" class="img-fluid" alt="Client 1">
+                    </div><!-- End Client Item -->
+
+                    <div class="col-xl-2 col-md-3 col-6 client-logo">
+                        <img src="{% static 'img/clients/client-2.png' %}" class="img-fluid" alt="Client 2">
+                    </div><!-- End Client Item -->
+
+                    <div class="col-xl-2 col-md-3 col-6 client-logo">
+                        <img src="{% static 'img/clients/client-3.png' %}" class="img-fluid" alt="Client 3">
+                    </div><!-- End Client Item -->
+
+                    <div class="col-xl-2 col-md-3 col-6 client-logo">
+                        <img src="{% static 'img/clients/client-4.png' %}" class="img-fluid" alt="Client 4">
+                    </div><!-- End Client Item -->
+
+                    <div class="col-xl-2 col-md-3 col-6 client-logo">
+                        <img src="{% static 'img/clients/client-5.png' %}" class="img-fluid" alt="Client 5">
+                    </div><!-- End Client Item -->
+
+                    <div class="col-xl-2 col-md-3 col-6 client-logo">
+                        <img src="{% static 'img/clients/client-6.png' %}" class="img-fluid" alt="Client 6">
+                    </div><!-- End Client Item -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Clients Section -->
+
+        <!-- About Section -->
+        <section id="about" class="about section light-background">
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+                <div class="row align-items-xl-center gy-5">
+
+                    <div class="col-xl-5 content">
+                        <h3>Sobre Nós</h3>
+                        <h2>O Que Oferecemos</h2>
+                        <p>Nossos espaços de coworking são projetados para criar um ambiente produtivo e inspirador.
+                            Oferecemos soluções flexíveis que atendem a diversas necessidades, desde startups em
+                            crescimento até equipes corporativas estabelecidas.</p>
+                        <a href="#schedule" class="read-more"><span>Saiba Mais</span><i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+
+                    <div class="col-xl-7">
+                        <div class="row gy-4 icon-boxes">
+
+                            <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                                <div class="icon-box">
+                                    <i class="bi bi-buildings"></i>
+                                    <h3>Ambientes Modernos</h3>
+                                    <p>Nossos espaços são projetados com um design moderno e funcional, oferecendo
+                                        ambientes confortáveis e inspiradores para aumentar sua produtividade.</p>
+                                </div>
+                            </div> <!-- End Icon Box -->
+
+                            <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                                <div class="icon-box">
+                                    <i class="bi bi-clipboard-pulse"></i>
+                                    <h3>Flexibilidade e Adaptabilidade</h3>
+                                    <p>Oferecemos soluções flexíveis para atender a todas as suas necessidades, desde
+                                        estações de trabalho compartilhadas até escritórios privados e salas de reunião.
+                                    </p>
+                                </div>
+                            </div> <!-- End Icon Box -->
+
+                            <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                                <div class="icon-box">
+                                    <i class="bi bi-command"></i>
+                                    <h3>Serviços Completos</h3>
+                                    <p>De internet de alta velocidade a serviços de impressão e suporte técnico, temos
+                                        tudo o que você precisa para trabalhar com eficiência e conforto.</p>
+                                </div>
+                            </div> <!-- End Icon Box -->
+
+                            <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                                <div class="icon-box">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                    <h3>Crescimento e Oportunidades</h3>
+                                    <p>Nosso ambiente colaborativo promove networking e oportunidades de crescimento.
+                                        Conecte-se com outros profissionais e expanda suas possibilidades de negócios.
+                                    </p>
+                                </div>
+                            </div> <!-- End Icon Box -->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section><!-- /About Section -->
+
+
+
+        <!-- Stats Section -->
+        <section id="stats" class="stats section dark-background">
+
+            <img src="{% static 'img/stats-bg.jpg' %}" alt="" data-aos="fade-in">
+
+
+            <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
+                                class="purecounter"></span>
+                            <p>Clients</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1"
+                                class="purecounter"></span>
+                            <p>Projects</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1"
+                                class="purecounter"></span>
+                            <p>Hours Of Support</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1"
+                                class="purecounter"></span>
+                            <p>Workers</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Stats Section -->
+
+
+        <!-- Spaces Section -->
+        <section id="spaces" class="services section">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Espaços</h2>
+                <p>Explore os Espaços que oferecemos para melhorar sua experiência de trabalho em nosso coworking.</p>
+            </div><!-- End Section Title -->
+            <style>
+                .mapaGoogle {
+                    height: 250px;  /* Altura do mapa */
+                    width: 50%;    /* Largura do mapa */
+                }
+
+                .filtroEMapa{
+                    display: flex;
+                    justify-content: center; /* Centraliza horizontalmente */
+                    align-items: center;     /* Centraliza verticalmente */
+                    flex-direction: row;
+                    height: 25vh;           /* Ajuste a altura conforme necessário */
+                }
+            </style>
+
+            <div class="filtroEMapa">
+
+                
+
+                
+
+                <!-- Incluir a API JavaScript do Google Maps -->
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJeB-GheZ0ccCaj9xh6CTssXsbZU3uPI&callback=initMap" async defer></script>
+                
+                <div id="map" class="mapaGoogle"></div>
+
+
+
+            </div>
+            <!-- Main Content -->
+            <main class="main mt-5">
+                <section class="section">
+                    <div class="container" data-aos="fade-up">
+                        <div class="section-title">
+                            <h2>Espaços de Coworking Disponíveis</h2>
+                        </div>
+                        <center> 
+                            <h1>Filtro de Busca</h1>
+                            <input type="text" id="searchInput" placeholder="Digite para buscar...">
+                        </br></br>
+                        </center>
+                        <div class="row gy-4" id="listaEspacos">
+                            {% for espaco in espacos %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card h-100 shadow-sm">
+                                    <!-- Ajuste para buscar a imagem do diretório de mídia -->
+                                    <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ espaco.nome }}</h5>
+                                        <p class="card-text">Capacidade: {{ espaco.capacidade }} pessoas</p>
+                                        <a href="{% url 'detalhe_espaco' espaco.id %}" class="btn btn-primary">Ver Detalhes</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p>Não há espaços de coworking disponíveis no momento.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <script>
+                // JavaScript para filtrar a lista
+                document.getElementById('searchInput').addEventListener('keyup', function() {
+                    //alert('Funfou!');
+                    const filter = this.value.toLowerCase();
+                    const items = document.querySelectorAll('#listaEspacos div');
+                    
+                    items.forEach(function(item) {
+                        const text = item.textContent.toLowerCase();
+                        if (text.includes(filter)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            </script>
+            <script>
+                
+
+                // Função que inicializa o mapa
+                function initMap() {
+                    
+                    // Coordenadas para vários locais
+                    var espacos = JSON.parse('{{ espacosJ|escapejs }}');
+                    var listaEnderecos = [];
+
+                    espacos.forEach(function(espaco) {
+
+                        listaEnderecos.push({
+                            lat: espaco.fields.latitude,
+                            lng: espaco.fields.longitude,
+                            title: espaco.fields.nome
+
+                        });
+
+                    });
+
+                    
+                    // Cria o mapa, centralizando na primeira localização
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 13,  // Defina um zoom adequado para mostrar todos os marcadores
+                        center: listaEnderecos[0]  // Centraliza na primeira localização
+                    });
+
+                    // Adiciona os marcadores no mapa
+                    //locations.forEach(function(location) {
+                    listaEnderecos.forEach(function(location) {
+
+                            var marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            title: location.title  // Título do marcador (aparece ao passar o mouse)
+                        });
+                    });
+
+
+                }
+            </script>
+
+
+        </section><!-- /Services Spaces -->
+
+
+
+
+
+
+
+        <!-- Services Section -->
+        <section id="services" class="services section">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Serviços</h2>
+                <p>Explore os serviços que oferecemos para melhorar sua experiência de trabalho em nosso coworking.</p>
+            </div><!-- End Section Title -->
+
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-item d-flex align-items-start">
+                            <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
+                            <div>
+                                <h4 class="title"><a href="services-details.html" class="stretched-link">Espaços
+                                        Privados</a></h4>
+                                <p class="description">Oferecemos salas de escritório privadas para que você possa
+                                    trabalhar com total privacidade e conforto, ideal para pequenas equipes ou
+                                    profissionais individuais.</p>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+
+                    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-item d-flex align-items-start">
+                            <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
+                            <div>
+                                <h4 class="title"><a href="services-details.html" class="stretched-link">Espaços
+                                        Compartilhados</a></h4>
+                                <p class="description">Ambientes de trabalho compartilhados que promovem a colaboração e
+                                    o networking, perfeitos para freelancers e pequenas empresas.</p>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+
+                    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-item d-flex align-items-start">
+                            <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
+                            <div>
+                                <h4 class="title"><a href="services-details.html" class="stretched-link">Salas de
+                                        Reunião</a></h4>
+                                <p class="description">Nossas salas de reunião são equipadas com tecnologia de ponta
+                                    para garantir apresentações e conferências eficazes e sem interrupções.</p>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+
+                    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                        <div class="service-item d-flex align-items-start">
+                            <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
+                            <div>
+                                <h4 class="title"><a href="services-details.html" class="stretched-link">Internet de
+                                        Alta Velocidade</a></h4>
+                                <p class="description">Acesso ilimitado à internet de alta velocidade, garantindo que
+                                    você permaneça conectado e produtivo em todos os momentos.</p>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+
+                    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                        <div class="service-item d-flex align-items-start">
+                            <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
+                            <div>
+                                <h4 class="title"><a href="services-details.html" class="stretched-link">Áreas de
+                                        Descanso</a></h4>
+                                <p class="description">Espaços de descanso confortáveis e bem equipados para momentos de
+                                    relaxamento e interação social com outros profissionais.</p>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+
+                    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+                        <div class="service-item d-flex align-items-start">
+                            <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
+                            <div>
+                                <h4 class="title"><a href="services-details.html" class="stretched-link">Eventos e
+                                        Workshops</a></h4>
+                                <p class="description">Organizamos eventos e workshops regulares para networking,
+                                    desenvolvimento de habilidades e aprendizado contínuo.</p>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+                </div>
+            </div>
+        </section><!-- /Services Section -->
+
+        </div>
+
+        </section><!-- /Features Section -->
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing section">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Planos e Preços</h2>
+                <p>Escolha o plano que melhor atende às suas necessidades e aproveite nossos espaços de trabalho
+                    flexíveis e modernos.</p>
+            </div><!-- End Section Title -->
+
+            <div class="container" data-aos="zoom-in" data-aos-delay="100">
+                <div class="row g-4">
+
+                    <!-- Plano Básico -->
+                    <div class="col-lg-4">
+                        <div class="pricing-item">
+                            <h3>Plano Básico</h3>
+                            <div class="icon">
+                                <i class="bi bi-box"></i>
+                            </div>
+                            <h4><sup>R$</sup>100<span> / mês</span></h4>
+                            <ul>
+                                <li><i class="bi bi-check"></i> Acesso a áreas comuns</li>
+                                <li><i class="bi bi-check"></i> Wi-Fi de alta velocidade</li>
+                                <li><i class="bi bi-check"></i> Café e chá gratuitos</li>
+                                <li class="na"><i class="bi bi-x"></i> Sala de reuniões</li>
+                                <li class="na"><i class="bi bi-x"></i> Suporte técnico dedicado</li>
+                            </ul>
+                            <div class="text-center"><a href="#" class="buy-btn">Escolher Plano</a></div>
+                        </div>
+                    </div><!-- End Pricing Item -->
+
+                    <!-- Plano Empresarial -->
+                    <div class="col-lg-4">
+                        <div class="pricing-item featured">
+                            <h3>Plano Empresarial</h3>
+                            <div class="icon">
+                                <i class="bi bi-rocket"></i>
+                            </div>
+                            <h4><sup>R$</sup>299<span> / mês</span></h4>
+                            <ul>
+                                <li><i class="bi bi-check"></i> Acesso a áreas comuns</li>
+                                <li><i class="bi bi-check"></i> Wi-Fi de alta velocidade</li>
+                                <li><i class="bi bi-check"></i> Café e chá gratuitos</li>
+                                <li><i class="bi bi-check"></i> 2 horas de sala de reuniões por mês</li>
+                                <li><i class="bi bi-check"></i> Suporte técnico básico</li>
+                            </ul>
+                            <div class="text-center"><a href="#" class="buy-btn">Escolher Plano</a></div>
+                        </div>
+                    </div><!-- End Pricing Item -->
+
+                    <!-- Plano Premium -->
+                    <div class="col-lg-4">
+                        <div class="pricing-item">
+                            <h3>Plano Premium</h3>
+                            <div class="icon">
+                                <i class="bi bi-gem"></i>
+                            </div>
+                            <h4><sup>R$</sup>499<span> / mês</span></h4>
+                            <ul>
+                                <li><i class="bi bi-check"></i> Acesso a áreas comuns</li>
+                                <li><i class="bi bi-check"></i> Wi-Fi de alta velocidade</li>
+                                <li><i class="bi bi-check"></i> Café e chá gratuitos</li>
+                                <li><i class="bi bi-check"></i> 5 horas de sala de reuniões por mês</li>
+                                <li><i class="bi bi-check"></i> Suporte técnico dedicado</li>
+                            </ul>
+                            <div class="text-center"><a href="#" class="buy-btn">Escolher Plano</a></div>
+                        </div>
+                    </div><!-- End Pricing Item -->
+
+                </div>
+            </div>
+        </section><!-- /Pricing Section -->
+
+        <!-- Call To Action Section -->
+        <section id="call-to-action" class="call-to-action section dark-background">
+            <img src="{% static 'img/cta-bg.jpg' %}" alt="Background CTA">
+
+            <div class="container">
+                <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-xl-10">
+                        <div class="text-center">
+                            <h3>Junte-se à Nossa Comunidade de Coworking</h3>
+                            <p>Descubra um ambiente inspirador onde você pode trabalhar, colaborar e crescer. Aproveite
+                                nossos espaços de trabalho modernos e flexíveis, projetados para apoiar suas
+                                necessidades profissionais.</p>
+                            <a class="cta-btn" href="{% url 'lista_espacos' %}">Agendar Agora</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Call To Action Section -->
+
+        <!-- Newsletter Signup Section -->
+        <section id="newsletter" class="newsletter section">
+            <div class="container">
+                <h3>Inscreva-se na nossa Newsletter</h3>
+                <form action="{% url 'newsletter_signup' %}" method="post" class="php-email-form">
+                    {% csrf_token %}
+                    <div class="sign-up-form">
+                        <input type="email" name="email" placeholder="Seu email" required>
+                        <input type="submit" value="Inscrever-se">
+                    </div>
+                    <div class="loading">Carregando...</div>
+                    <div class="error-message"></div>
+                    <div class="sent-message">Seu pedido de inscrição foi enviado. Obrigado!</div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Fale Conosco</h2>
+                <p>Entre em contato para saber mais sobre nossos serviços de coworking ou para agendar uma visita.</p>
+            </div><!-- End Section Title -->
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+                <div class="row gy-4">
+
+                    <!-- Contact Information -->
+                    <div class="col-lg-6">
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <div class="info-item" data-aos="fade" data-aos-delay="200">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h3>Endereço</h3>
+                                    <p>Rua Exemplo, 123</p>
+                                    <p>Cidade, Estado, 12345-678</p>
+                                </div>
+                            </div><!-- End Info Item -->
+
+                            <div class="col-md-6">
+                                <div class="info-item" data-aos="fade" data-aos-delay="300">
+                                    <i class="bi bi-telephone"></i>
+                                    <h3>Telefone</h3>
+                                    <p>+55 11 98765-4321</p>
+                                    <p>+55 11 12345-6789</p>
+                                </div>
+                            </div><!-- End Info Item -->
+
+                            <div class="col-md-6">
+                                <div class="info-item" data-aos="fade" data-aos-delay="400">
+                                    <i class="bi bi-envelope"></i>
+                                    <h3>Email</h3>
+                                    <p>contato@coworking.com.br</p>
+                                    <p>suporte@coworking.com.br</p>
+                                </div>
+                            </div><!-- End Info Item -->
+
+                            <div class="col-md-6">
+                                <div class="info-item" data-aos="fade" data-aos-delay="500">
+                                    <i class="bi bi-clock"></i>
+                                    <h3>Horário de Funcionamento</h3>
+                                    <p>Segunda - Sexta</p>
+                                    <p>9:00 - 18:00</p>
+                                </div>
+                            </div><!-- End Info Item -->
+                        </div>
+                    </div><!-- End Contact Information -->
+
+                    <!-- Contact Form -->
+                    <div class="col-lg-6">
+                        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
+                            data-aos-delay="200">
+                            <div class="row gy-4">
+                                <div class="col-md-6">
+                                    <input type="text" name="name" class="form-control" placeholder="Seu Nome" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" name="email" placeholder="Seu Email"
+                                        required>
+                                </div>
+
+                                <div class="col-12">
+                                    <input type="text" class="form-control" name="subject" placeholder="Assunto"
+                                        required>
+                                </div>
+
+                                <div class="col-12">
+                                    <textarea class="form-control" name="message" rows="6" placeholder="Sua Mensagem"
+                                        required></textarea>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <div class="loading">Carregando</div>
+                                    <div class="error-message"></div>
+                                    <div class="sent-message">Sua mensagem foi enviada. Obrigado!</div>
+                                    <button type="submit">Enviar Mensagem</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!-- End Contact Form -->
+
+                </div>
+            </div>
+        </section><!-- /Contact Section -->
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer" class="footer position-relative light-background">
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <!-- About Section -->
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html
+                    
+                    
+                    " class="logo d-flex align-items-center">
+                        <span class="sitename">Coworking Space</span>
+                    </a>
+                    <p>Nosso espaço de coworking oferece um ambiente acolhedor e produtivo para freelancers, startups e
+                        empresas. Junte-se a nós e descubra como podemos ajudá-lo a crescer e ter sucesso.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div><!-- End About Section -->
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Links Úteis</h4>
+                    <ul>
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#about">Sobre Nós</a></li>
+                        <li><a href="#services">Serviços</a></li>
+                        <li><a href="#pricing">Planos e Preços</a></li>
+                        <li><a href="#contact">Contato</a></li>
+                    </ul>
+                </div><!-- End Quick Links -->
+
+                <!-- Services Links -->
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Nossos Serviços</h4>
+                    <ul>
+                        <li><a href="#">Escritórios Privativos</a></li>
+                        <li><a href="#">Espaços Compartilhados</a></li>
+                        <li><a href="#">Salas de Reunião</a></li>
+                        <li><a href="#">Eventos e Workshops</a></li>
+                        <li><a href="#">Internet de Alta Velocidade</a></li>
+                    </ul>
+                </div><!-- End Services Links -->
+
+                <!-- Contact Information -->
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contato</h4>
+                    <p>Rua Exemplo, 123<br>Cidade, Estado, 12345-678<br>Brasil</p>
+                    <p class="mt-4"><strong>Telefone:</strong> +55 11 98765-4321</p>
+                    <p><strong>Email:</strong> contato@coworking.com.br</p>
+                </div><!-- End Contact Information -->
+
+            </div>
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="container copyright text-center mt-4">
+            <p>© <span>2024</span> <strong class="sitename">Coworking Space</strong>. Todos os Direitos Reservados.</p>
+            <div class="credits">
+                <!-- You can remove the credits only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+                <!--Desenvolvido por <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+            </div>
+        </div>
+    </footer><!-- End Footer Section -->
+
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+    <!-- Main JS File -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>

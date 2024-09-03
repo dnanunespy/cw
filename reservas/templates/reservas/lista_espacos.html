@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Espaços de Coworking</title>
+    <!-- Inclua os estilos CSS principais -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+            <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+                <h1 class="sitename">Coworking Space</h1><span>.</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main mt-5">
+        <section class="section">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title">
+                    <h2>Espaços de Coworking Disponíveis</h2>
+                </div>
+                <div class="row gy-4">
+                    {% for espaco in espacos %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <!-- Ajuste para buscar a imagem do diretório de mídia -->
+                            <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ espaco.nome }}</h5>
+                                <p class="card-text">Capacidade: {{ espaco.capacidade }} pessoas</p>
+                                <a href="{% url 'detalhe_espaco' espaco.id %}" class="btn btn-primary">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>Não há espaços de coworking disponíveis no momento.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Inclua os scripts JS principais -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gerenciar Espaços</title>
+    <link rel="stylesheet" href="{% static 'reservas/styles.css' %}">
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>Gerenciar Espaços de Coworking</h2>
+        <ul>
+            {% for espaco in espacos %}
+            <li>{{ espaco.nome }} - {{ espaco.endereco }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'lista_espacos' %}">Voltar à lista de espaços</a>
+    </div>
+</body>
+
+</html>
