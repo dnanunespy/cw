@@ -114,9 +114,9 @@ class EspacoCoworking(models.Model):
 
 class Reserva(models.Model):
     espaco = models.ForeignKey(EspacoCoworking, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, null=True)
+    usuario = models.ForeignKey( User, on_delete=models.CASCADE, blank=True, null=True)
     data_reserva = models.DateField()
+    
     hora_inicio = models.TimeField()
     hora_fim = models.TimeField()
 
