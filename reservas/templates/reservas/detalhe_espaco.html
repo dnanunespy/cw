@@ -34,18 +34,306 @@
                     <div class="col-lg-8">
                         <div class="card h-100 shadow-sm">
                             {% if espaco.foto %}
-                            <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Foto do espaço"
-                                style="max-width: 100%;">
+                            <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Foto do espaço" style="max-width: 100%;">
                             {% else %}
                             <img src="{% static 'img/placeholder.jpg' %}" class="card-img-top" alt="Foto do espaço">
                             {% endif %}
                             <div class="card-body">
+                                {% if espaco.nome %}
+                                <h5 class="card-title">{{ espaco.nome }}</h5>
+                                {% endif %}
+                                
+                                {% if espaco.frase_destaque %}
+                                <p class="card-text"><strong>Frase de destaque:</strong> {{ espaco.frase_destaque }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.descricao %}
                                 <p class="card-text">{{ espaco.descricao }}</p>
-                                <p class="card-text">Endereço: {{ espaco.endereco }}</p>
-                                <p class="card-text">Capacidade: {{ espaco.capacidade }} pessoas</p>
-                                <p class="card-text">Preço por hora: R$ {{ espaco.preco_por_hora }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.endereco %}
+                                <p class="card-text"><strong>Endereço:</strong> {{ espaco.endereco }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.capacidade %}
+                                <p class="card-text"><strong>Capacidade:</strong> {{ espaco.capacidade }} pessoas</p>
+                                {% endif %}
+                                
+                                {% if espaco.preco_por_hora %}
+                                <p class="card-text"><strong>Preço por hora:</strong> R$ {{ espaco.preco_por_hora }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.latitude and espaco.longitude %}
+                                <p class="card-text"><strong>Localização:</strong> {{ espaco.latitude }}, {{ espaco.longitude }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.palavras_chave %}
+                                <p class="card-text"><strong>Palavras-chave:</strong> {{ espaco.palavras_chave }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.instagram %}
+                                <p class="card-text"><strong>Instagram:</strong> <a href="{{ espaco.instagram }}" target="_blank">{{ espaco.instagram }}</a></p>
+                                {% endif %}
+                                
+                                {% if espaco.facebook %}
+                                <p class="card-text"><strong>Facebook:</strong> <a href="{{ espaco.facebook }}" target="_blank">{{ espaco.facebook }}</a></p>
+                                {% endif %}
+                                
+                                {% if espaco.linkedin %}
+                                <p class="card-text"><strong>LinkedIn:</strong> <a href="{{ espaco.linkedin }}" target="_blank">{{ espaco.linkedin }}</a></p>
+                                {% endif %}
+                                
+                                {% if espaco.nome_espaco %}
+                                <p class="card-text"><strong>Nome do Espaço:</strong> {{ espaco.nome_espaco }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.razao_social %}
+                                <p class="card-text"><strong>Razão Social:</strong> {{ espaco.razao_social }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.cep %}
+                                <p class="card-text"><strong>CEP:</strong> {{ espaco.cep }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.pais %}
+                                <p class="card-text"><strong>País:</strong> {{ espaco.pais }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.uf %}
+                                <p class="card-text"><strong>UF:</strong> {{ espaco.uf }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.cidade %}
+                                <p class="card-text"><strong>Cidade:</strong> {{ espaco.cidade }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.bairro %}
+                                <p class="card-text"><strong>Bairro:</strong> {{ espaco.bairro }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.logradouro %}
+                                <p class="card-text"><strong>Logradouro:</strong> {{ espaco.logradouro }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.numero %}
+                                <p class="card-text"><strong>Número:</strong> {{ espaco.numero }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.complemento %}
+                                <p class="card-text"><strong>Complemento:</strong> {{ espaco.complemento }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.logo %}
+                                <img src="{{ espaco.logo.url }}" alt="Logo do Espaço" style="max-width: 100%;">
+                                {% endif %}
+                                
+                                {% if espaco.foto_horizontal %}
+                                <img src="{{ espaco.foto_horizontal.url }}" alt="Foto Horizontal do Espaço" style="max-width: 100%;">
+                                {% endif %}
+                                
+                                <!-- DADOS PESSOAIS -->
+                                {% if espaco.nome_proprietario %}
+                                <p class="card-text"><strong>Nome do Proprietário:</strong> {{ espaco.nome_proprietario }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.email_proprietario %}
+                                <p class="card-text"><strong>Email do Proprietário:</strong> {{ espaco.email_proprietario }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.telefone_proprietario %}
+                                <p class="card-text"><strong>Telefone do Proprietário:</strong> {{ espaco.telefone_proprietario }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.nome_gerente %}
+                                <p class="card-text"><strong>Nome do Gerente:</strong> {{ espaco.nome_gerente }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.email_gerente %}
+                                <p class="card-text"><strong>Email do Gerente:</strong> {{ espaco.email_gerente }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.telefone_gerente %}
+                                <p class="card-text"><strong>Telefone do Gerente:</strong> {{ espaco.telefone_gerente }}</p>
+                                {% endif %}
+                                
+                                <!-- DADOS BANCÁRIOS -->
+                                {% if espaco.titular_conta %}
+                                <p class="card-text"><strong>Titular da Conta:</strong> {{ espaco.titular_conta }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.banco %}
+                                <p class="card-text"><strong>Banco:</strong> {{ espaco.banco }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.agencia %}
+                                <p class="card-text"><strong>Agência:</strong> {{ espaco.agencia }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.conta %}
+                                <p class="card-text"><strong>Conta:</strong> {{ espaco.conta }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.tipo_conta %}
+                                <p class="card-text"><strong>Tipo de Conta:</strong> {{ espaco.tipo_conta }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.pix %}
+                                <p class="card-text"><strong>PIX:</strong> {{ espaco.pix }}</p>
+                                {% endif %}
+                                
+                                {% if espaco.cafe %}
+                                <p class="card-text"><strong>Café:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.cha %}
+                                <p class="card-text"><strong>Chá:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.massagem %}
+                                <p class="card-text"><strong>Massagem:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.outros_diferenciais %}
+                                <p class="card-text"><strong>Outros Diferenciais:</strong> {{ espaco.outros_diferenciais }}</p>
+                                {% endif %}
+                                
+                                <!-- ÁREAS COMUNS -->
+                                {% if espaco.wifi %}
+                                <p class="card-text"><strong>Wi-Fi:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.acessibilidade %}
+                                <p class="card-text"><strong>Acessibilidade:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.acesso24h %}
+                                <p class="card-text"><strong>Acesso 24h:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.playground_kids %}
+                                <p class="card-text"><strong>Playground para crianças:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.ar_condicionado %}
+                                <p class="card-text"><strong>Ar-condicionado:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.area_alimentacao %}
+                                <p class="card-text"><strong>Área de Alimentação:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.biblioteca %}
+                                <p class="card-text"><strong>Biblioteca:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.cabine_call %}
+                                <p class="card-text"><strong>Cabine de Call:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.cozinha %}
+                                <p class="card-text"><strong>Cozinha:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.espaco_pet %}
+                                <p class="card-text"><strong>Espaço Pet:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.espaco_convivencia %}
+                                <p class="card-text"><strong>Espaço de Convivência:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.lounge %}
+                                <p class="card-text"><strong>Lounge:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.galeria_arte %}
+                                <p class="card-text"><strong>Galeria de Arte:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.geladeira %}
+                                <p class="card-text"><strong>Geladeira:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.gerador_eletricidade %}
+                                <p class="card-text"><strong>Gerador de Eletricidade:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.jardim %}
+                                <p class="card-text"><strong>Jardim:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.quadro_branco %}
+                                <p class="card-text"><strong>Quadro Branco:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.recepcao %}
+                                <p class="card-text"><strong>Recepção:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.sala_descompressao %}
+                                <p class="card-text"><strong>Sala de Descompressão:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.sala_jogos %}
+                                <p class="card-text"><strong>Sala de Jogos:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.varanda %}
+                                <p class="card-text"><strong>Varanda:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.vestuario %}
+                                <p class="card-text"><strong>Vestiário:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.velocidade_internet %}
+                                <p class="card-text"><strong>Velocidade da Internet:</strong> {{ espaco.velocidade_internet }}</p>
+                                {% endif %}
+                                
+                                <!-- OUTROS SERVIÇOS -->
+                                {% if espaco.auditorio %}
+                                <p class="card-text"><strong>Auditório:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.cafeteria %}
+                                <p class="card-text"><strong>Cafeteria:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.coliving %}
+                                <p class="card-text"><strong>Coliving:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.espaco_eventos %}
+                                <p class="card-text"><strong>Espaço para Eventos:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.estudio_gravacao %}
+                                <p class="card-text"><strong>Estúdio de Gravação:</strong> Sim</p>
+                                {% endif %}
+                                
+                                {% if espaco.restaurante %}
+                                <p class="card-text"><strong>Restaurante:</strong> Sim</p>
+                                {% endif %}
+                                
+                                <!-- FOTOS -->
+                                {% if espaco.fotos_area_comum %}
+                                <img src="{{ espaco.fotos_area_comum.url }}" alt="Fotos Área Comum" style="max-width: 100%;">
+                                {% endif %}
+                                
+                                {% if espaco.fotos_area_compartilhada %}
+                                <img src="{{ espaco.fotos_area_compartilhada.url }}" alt="Fotos Área Compartilhada" style="max-width: 100%;">
+                                {% endif %}
+                                
+                                {% if espaco.fotos_salas_privativas %}
+                                <img src="{{ espaco.fotos_salas_privativas.url }}" alt="Fotos Salas Privativas" style="max-width: 100%;">
+                                {% endif %}
+                                
+                                {% if espaco.outras_fotos %}
+                                <img src="{{ espaco.outras_fotos.url }}" alt="Outras Fotos" style="max-width: 100%;">
+                                {% endif %}
                             </div>
                         </div>
+                        
                     </div>
 
                     <div class="col-lg-4">

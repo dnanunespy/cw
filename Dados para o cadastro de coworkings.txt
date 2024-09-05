@@ -1,0 +1,84 @@
+DADOS DO ESPAÇO
+
+instagram (Outras redes talvez não seja necessário)
+nome do espaço
+razão social
+cep (já preenche os demais campos se possível)
+país
+uf
+cidade
+bairro
+logradouro
+numero
+complemento
+latitude e longitude (abir um mapa do google maps para o usuário selecionar)
+
+
+Logo 1x1
+Foto horizontal
+
+Nome do proprietário
+Email do proprietário
+Telefone do proprietário
+
+Nome do gerente
+Email do gerente
+Telefone do gerente
+
+DADOS BANCÁRIOS:
+Titular da conta
+Banco
+Ag
+conta
+tipo de conta
+pix
+
+
+DETALHES DO ESPAÇO:
+Palavras chave (separado por ;)
+Frase destaque (até 100 caracteres)
+Descrição do espaço (descrição detalhada)
+
+DIFERENCIAIS OFERECIDOS:
+café, chá, massagem (ver outros atrativos com o Joninhas pq sou da roça e não conheço coworkings)
+
+
+SOBRE AS ÁREAS COMUNS:
+Wi-fi
+acessibilidade
+acesso 24/7
+playground para crianças
+ar condicionado
+área de alimentação
+biblioteca
+cabine de call
+cozinha
+espaço pet
+espaço de convivência
+lounge
+galeria de arte
+geladeira
+gerador de eletricidade
+jardim
+quadro branco
+recepção
+sala de descompressão
+sala de jogos
+varanda
+vestiário
+Velocidade da internet (geral)
+
+OUTROS SERVIÇOS OFERECIDOS NO SEU ESPAÇO:
+auditório
+cafeteria
+Co-living
+espaço para eventos
+estúdio de gravação
+restaurante
+
+
+FOTOS:
+fotos da área comum
+fotos da área compartilhada
+foto das salas privativas
+outras fotos

@@ -50,6 +50,7 @@ def detalhe_espaco(request, espaco_id):
 
 
 def lista_espacos(request):
+    print("Lista_espacos!!!")
     espacos = EspacoCoworking.objects.all()
     return render(request, 'reservas/lista_espacos.html', {'espacos': espacos})
 

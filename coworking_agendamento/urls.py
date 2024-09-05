@@ -13,8 +13,7 @@ urlpatterns = [
     
     path('', reservas_views.index, name='index'),
     
-    path('login/', auth_views.LoginView.as_view(template_name='reservas/login.html'),
-         name='login'),  # Página de login
+    path('login/', auth_views.LoginView.as_view(template_name='reservas/login.html'), name='login'),  # Página de login
     
     path('reservas/', include('reservas.urls')),  # Inclui URLs do app reservas
 

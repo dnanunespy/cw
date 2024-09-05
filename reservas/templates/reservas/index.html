@@ -290,6 +290,7 @@
                             <input type="text" id="searchInput" placeholder="Digite para buscar...">
                         </br></br>
                         </center>
+
                         <div class="row gy-4" id="listaEspacos">
                             {% for espaco in espacos %}
                             <div class="col-lg-4 col-md-6">
@@ -298,7 +299,13 @@
                                     <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ espaco.nome }}</h5>
-                                        <p class="card-text">Capacidade: {{ espaco.capacidade }} pessoas</p>
+                                        <p class="card-text">{{ espaco.frase_destaque  }} </p>
+                                        <hr>
+
+                                        <p class="description">Capacidade: {{ espaco.capacidade }} pessoas</p>
+                                        <p class="description">Internet: {{ espaco.velocidade_internet }}mbps</p>
+                                        <p class="description">Preço: R${{ espaco.preco_por_hora }}/h</p>
+                                       
                                         <a href="{% url 'detalhe_espaco' espaco.id %}" class="btn btn-primary">Ver Detalhes</a>
                                     </div>
                                 </div>
