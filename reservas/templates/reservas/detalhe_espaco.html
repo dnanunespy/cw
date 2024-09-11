@@ -1,5 +1,6 @@
 <!-- reservas/templates/reservas/detalhe_espaco.html -->
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +12,10 @@
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    
+    
+
+    
 </head>
 
 <body>
@@ -336,14 +341,77 @@
                         
                     </div>
 
+                    <style>
+                         .containerr {
+                            background-color: #fff;
+                            padding: 40px;
+                            border-radius: 10px;
+                            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                            text-align: left;
+                            width: 320px;
+                            cursor: pointer;
+                        }
+
+                        input[type="date"] {
+                        padding: 12px;
+                        font-size: 16px;
+                        border-radius: 8px;
+                        border: 1px solid #ccc;
+                        width: 100%;
+                        transition: border-color 0.3s;
+                       
+                       }
+
+                       input[type="time"] {
+                        padding: 12px;
+                        font-size: 16px;
+                        border-radius: 8px;
+                        border: 1px solid #ccc;
+                        width: 49%;
+                        transition: border-color 0.3s;
+                       
+                       }
+
+                       .form-control {
+                        padding: 12px;
+                        font-size: 16px;
+                        border-radius: 8px;
+                        border: 1px solid #ccc;
+                        width: 100%;
+                        transition: border-color 0.3s;
+                       
+                       }
+
+                       input[type="date"]:focus {
+                           outline: none;
+                           border-color: #6c63ff;
+                        }
+                    </style>
+
                     <div class="col-lg-4">
-                        <!-- Formulário de Reserva -->
-                        <div class="card h-100 shadow-sm">
+                        <!-- Formulário de Reserva   class="card h-100 shadow-sm"  -->
+                        <div class="containerr">
                             <div class="card-body">
-                                <h5 class="card-title">Faça uma Reserva</h5>
+                                
+		                        
                                 <form method="POST">
                                     {% csrf_token %}
-                                    {{ form.as_p }}
+                                    <h4>Selecione recurso</h4>
+                                    <select name="recurso" class="form-control">
+                                        {% for recurso in recursos %}
+                                            <option value="{{ recurso.id }}">{{ recurso.nome_recurso }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    </br>
+                                    <h4>Selecione uma data</h4>
+                                    <p>{{ form.data_reserva }}</p>
+                                    <p>{{ form.hora_inicio }} {{ form.hora_fim }}</p>
+
+
+                                    
+                                    
+                                    
                                     <button type="submit" class="btn btn-primary">Reservar</button>
                                 </form>
                             </div>
@@ -351,13 +419,14 @@
                     </div>
                 </div>
                 <br>
-                <button onclick="window.history.back()" class="btn btn-secondary">Voltar à lista de espaços</button>
+                <a href="{% url 'lista_espacos' %}" class="btn btn-primary">Voltar à lista de espaços</a>
                 
             </div>
         </section>
     </main>
 
     <!-- Inclua os scripts JS principais -->
+    
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/aos/aos.js' %}"></script>
     <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
@@ -366,6 +435,7 @@
     <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    
 
 </body>
 

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .models import EspacoCoworking, Reserva
+from .models import EspacoCoworking, Reserva, RecursosEspacoCoworking
 from .forms import ReservaForm
 from django.shortcuts import render
 
@@ -30,7 +30,7 @@ def index(request):
     return render(request, 'reservas/index.html', context)
 
 
-@login_required
+'''@login_required
 def detalhe_espaco(request, espaco_id):
     # Garante que o espaço pertence ao usuário
     espaco = get_object_or_404(
@@ -42,12 +42,54 @@ def detalhe_espaco(request, espaco_id):
             reserva = form.save(commit=False)
             reserva.espaco = espaco
             reserva.usuario = request.user
+            
             reserva.save()
             messages.success(request, 'Reserva feita com sucesso!')
             return redirect('lista_espacos')
     else:
         form = ReservaForm()
-    return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form})
+    return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form})'''
+
+
+
+
+@login_required
+def detalhe_espaco(request, espaco_id):
+    espaco = get_object_or_404(EspacoCoworking, id=espaco_id)
+    recursos = RecursosEspacoCoworking.objects.filter(espaco_coworking_id=espaco_id)
+
+    # Verifica se o usuário tem permissão para ver o espaço
+    if espaco.proprietario != request.user and not is_coworking_admin(request.user):
+        return render(request, '403.html', status=403)
+
+    if request.method == 'POST':
+        form = ReservaForm(request.POST)
+        if form.is_valid():
+            reserva = form.save(commit=False)
+            reserva.espaco = espaco
+            reserva.usuario = request.user
+
+            # Obtém o recurso selecionado a partir do campo select no form
+            recurso_id = request.POST.get('recurso')
+            recurso = get_object_or_404(RecursosEspacoCoworking, id=recurso_id)
+            reserva.recurso = recurso  # Associa o recurso à reserva
+
+            reserva.save()
+            messages.success(request, 'Reserva feita com sucesso!')
+            return redirect('lista_espacos')
+    else:
+        form = ReservaForm()
+
+    return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form, 'recursos': recursos})
+
+
+
+
+
+
+
+
+
 
 
 def lista_espacos(request):
@@ -65,8 +107,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            messages.success(
-                request, f'Conta criada com sucesso para {username}!')
+            messages.success(request, f'Conta criada com sucesso para {username}!')
             login(request, user)
             return redirect('lista_espacos')
     else:
@@ -86,26 +127,15 @@ def gerenciar_espacos(request):
     return render(request, 'reservas/gerenciar_espacos.html', {'espacos': espacos})
 
 
-@login_required
-def detalhe_espaco(request, espaco_id):
-    espaco = get_object_or_404(EspacoCoworking, id=espaco_id)
 
-    # Verifica se o usuário tem permissão para ver o espaço
-    if espaco.proprietario != request.user and not is_coworking_admin(request.user):
-        return render(request, '403.html', status=403)
 
-    if request.method == 'POST':
-        form = ReservaForm(request.POST)
-        if form.is_valid():
-            reserva = form.save(commit=False)
-            reserva.espaco = espaco
-            reserva.usuario = request.user
-            reserva.save()
-            messages.success(request, 'Reserva feita com sucesso!')
-            return redirect('lista_espacos')
-    else:
-        form = ReservaForm()
-    return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form})
+
+
+
+
+
+
+
 
 
 def newsletter_signup(request):

@@ -3,20 +3,116 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
+    <!-- Inclua os estilos CSS principais -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
+    <script>
+        function validateForm() {
+            const username = document.getElementById('id_username').value;
+            const password1 = document.getElementById('id_password1').value;
+            const password2 = document.getElementById('id_password2').value;
+
+            if (!username || !password1 || !password2) {
+                alert('Por favor, preencha todos os campos.');
+                return false;
+            }
+
+            if (password1 !== password2) {
+                alert('As senhas não coincidem.');
+                return false;
+            }
+
+            // Adicione outras validações de senha aqui se necessário
+
+            return true;
+        }
+    </script>
+        <!-- Fonts and Vendor CSS Files -->
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+        
+        
 </head>
 
 <body>
-    <div class="container">
-        <h2>Registrar-se</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Registrar</button>
-        </form>
-        <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
-    </div>
+     <!-- Header  <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0"> -->
+    <!-- Header -->
+    
+    
+    <main class="main mt-5">
+        <!-- <section class="section"> -->
+        
+            <div class="container" data-aos="fade-up"> 
+                <header id="header" class="header d-flex align-items-center ">
+                    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+                        <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+                            <h1 class="sitename">Coworking Space</h1>
+                        </a>
+                    </div>
+                </header>
+
+                <div class="container"> 
+
+                    
+
+                    <h2>Registrar-se</h2>
+                    <form method="post" onsubmit="return validateForm();">
+                        {% csrf_token %}
+                    
+                        <!-- Exibindo apenas o campo de username e removendo as mensagens de erro -->
+                        <div>
+                            <label for="{{ form.username.id_for_label }}">Usuário</label>
+                            <p>{{ form.username }}</p>
+                            {% if form.username.errors %}
+                                <div class="error">{{ form.username.errors }}</div>
+                            {% endif %}
+                        </div>
+                    
+                        <div>
+                            <label for="{{ form.password1.id_for_label }}">Senha</label>
+                            <p>{{ form.password1 }}</p>
+                            {% if form.password1.errors %}
+                                <div class="error">{{ form.password1.errors }}</div>
+                            {% endif %}
+                        </div>
+                    
+                        <div>
+                            <label for="{{ form.password2.id_for_label }}">Confirmação da senha</label>
+                            <p>{{ form.password2 }}</p>
+                            {% if form.password2.errors %}
+                                <div class="error">{{ form.password2.errors }}</div>
+                            {% endif %}
+                        </div>
+                    
+                        <p><button type="submit">Register</button></p>
+                    </form>
+                    
+                    <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
+                </div>
+           
+            </div>
+        
+        
+       <!--  </section>    -->
+    </main>
+
+
+    <!-- Inclua os scripts JS principais -->
+    
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>    
 </body>
 
 </html>
