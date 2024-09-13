@@ -59,8 +59,8 @@ def detalhe_espaco(request, espaco_id):
     recursos = RecursosEspacoCoworking.objects.filter(espaco_coworking_id=espaco_id)
 
     # Verifica se o usuário tem permissão para ver o espaço
-    if espaco.proprietario != request.user and not is_coworking_admin(request.user):
-        return render(request, '403.html', status=403)
+    #if espaco.proprietario != request.user and not is_coworking_admin(request.user):
+    #    return render(request, '403.html', status=403)
 
     if request.method == 'POST':
         form = ReservaForm(request.POST)

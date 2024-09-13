@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,49 +10,56 @@
     <meta name="description" content="Página de login para o espaço de coworking">
     <meta name="keywords" content="login, coworking, espaço de trabalho">
 
-    <!-- Favicons -->
-    <link href="{% static 'img/favicon.png' %}" rel="icon">
-    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
-    <!-- Vendor CSS Files -->
+    <!-- Inclua os estilos CSS principais -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-
-    <!-- Main CSS File -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
 </head>
 
 <body>
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
-            <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
-                <h1 class="sitename">Coworking Space</h1><span>.</span>
-            </a>
-        </div>
-    </header>
+    
 
-    <main class="main">
-        <section class="hero section dark-background">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <div class="login-box">
-                            <h2>Login</h2>
-                            <form method="post">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </form>
-                            <p>Não tem uma conta? <a href="{% url 'register' %}">Registre-se aqui</a></p>
-                        </div>
-                    </div>
+    <main class="main mt-5">
+
+        <div class="container" data-aos="fade-up">
+
+            <header id="header" class="header d-flex align-items-center ">
+                <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+                    <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+                        <h1 class="sitename">Coworking Space</h1>
+                    </a>
                 </div>
+            </header>
+
+            
+            <div class="row justify-content-center">    
+               
+                <div class="col-lg-5">
+                   
+                       
+                    <h2>Login</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <p><button type="submit" class="btn btn-primary">Login</button>
+                        <!-- Botão de Login com Google -->
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary"> Login com Google </a></p>
+                    </form>        
+                    <p>Não tem uma conta? <a href="{% url 'register' %}">Registre-se aqui</a></p>
+                     
+                </div>   
+
             </div>
-        </section>
-    </main>
+        </div>
+        
+    </main> 
+
+
 
     <!-- Vendor JS Files -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

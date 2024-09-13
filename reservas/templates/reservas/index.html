@@ -55,8 +55,19 @@
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
             <div>
-                <a class="btn-getstarted" href="{% url 'register' %}">Login / Registre-se</a>
-                <a class="btn-getstarted" href="{% url 'lista_espacos' %}">Agendar Agora</a>
+                {% if user.is_authenticated %}
+                    <!-- Usuário está autenticado -->
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-getstarted">Logout</button>
+                        <a class="btn-getstarted" href="{% url 'lista_espacos' %}">Agendar Agora</a>
+                    </form>
+                {% else %}    
+                    <!-- Usuário não está autenticado -->
+                    <a class="btn-getstarted" href="{% url 'register' %}">Login / Registre-se</a>
+                    <a class="btn-getstarted" href="{% url 'lista_espacos' %}">Agendar Agora</a>
+                {% endif %}    
+                    
             </div>
 
 

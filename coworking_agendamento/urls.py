@@ -9,20 +9,15 @@ from reservas import views as reservas_views  # Importe a view index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Define a view index como a página inicial
-    
     path('', reservas_views.index, name='index'),
-    
-    path('login/', auth_views.LoginView.as_view(template_name='reservas/login.html'), name='login'),  # Página de login
-    
-    path('reservas/', include('reservas.urls')),  # Inclui URLs do app reservas
-
+    path('login/', auth_views.LoginView.as_view(template_name='reservas/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('reservas/', include('reservas.urls')),
     path('lista/', include('reservas.urls')), 
-    
-    path('register/', reservas_views.register, name='register'),  # Página de registro
-    
+    path('register/', reservas_views.register, name='register'),
+    path('accounts/', include('allauth.urls')),  # Inclui as URLs do allauth
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

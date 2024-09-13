@@ -37,10 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'reservas',
     'django.contrib.staticfiles',
-    'reservas',  # Adicione esta linha
-
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
+
+# Configuração de ID do site (precisa estar presente no banco de dados do Django)
+SITE_ID = 1
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,14 +58,44 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Middleware do allauth
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
+
+# configuração para pular a tela de confirmação
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ROOT_URLCONF = 'coworking_agendamento.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,15 +108,16 @@ TEMPLATES = [
     },
 ]
 
+
+print("basedir:")
+print(BASE_DIR)
+
+
 WSGI_APPLICATION = 'coworking_agendamento.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -129,14 +168,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
 # Redireciona para esta URL após o login bem-sucedido
-LOGIN_REDIRECT_URL = '/reservas/'
+'''LOGIN_REDIRECT_URL = '/reservas/'
 LOGIN_URL = 'login'  # URL para a página de login
 LOGOUT_REDIRECT_URL = 'login'  # Redireciona para a página de login após logout
+'''
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'  # URL para a página de login
+LOGOUT_REDIRECT_URL = '/'  # Redireciona para a página de login após logout
+
+
 
 # settings.py
 # Certifique-se de que os templates estejam configurados corretamente
 
-TEMPLATES = [
+'''TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
@@ -150,11 +196,11 @@ TEMPLATES = [
             ],
         },
     },
-]
+]'''
 
 
 # Configurar o middleware para exibir páginas de erro personalizadas
-MIDDLEWARE = [
+'''MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -162,7 +208,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+]'''
 
 # Adiciona um handler para erros 403
 HANDLER403 = 'django.views.defaults.permission_denied_view'
