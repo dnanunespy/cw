@@ -1,0 +1,141 @@
+/* reservas/static/reservas/styles.css */
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    width: 85%;
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.classTeste{
+    background-color: red;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: #34495e;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+ul li {
+    background-color: #ecf0f1;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #3498db;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+ul li:hover {
+    background-color: #d0dfe8;
+    transform: translateX(10px);
+}
+
+a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #1a5276;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus {
+    border-color: #3498db;
+    background-color: #ffffff;
+}
+
+button {
+    padding: 12px 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+.success {
+    color: #27ae60;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+    background-color: #e9f7ef;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.img-responsive:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
