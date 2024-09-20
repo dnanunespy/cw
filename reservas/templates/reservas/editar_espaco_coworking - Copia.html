@@ -1,21 +1,21 @@
 {% load static %}
-{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Login - Coworking Space</title>
-    <meta name="description" content="Página de login para o espaço de coworking">
-    <meta name="keywords" content="login, coworking, espaço de trabalho">
+    <title>Editar Espaço de Coworking</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-
-    <!-- Inclua os estilos CSS principais -->
+    <!-- Vendor CSS Files -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
+   
+
 
 </head>
 
@@ -40,15 +40,20 @@
                 <div class="col-lg-5">
                    
                        
-                    <h2>Login</h2>
-                    <form method="post">
+                    <h2>Editar Espaço de Coworking: {{ form.instance.nome }}</h2>
+                            
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <p><button type="submit" class="btn btn-primary">Login</button>
-                        <!-- Botão de Login com Google -->
-                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary"> Login com Google </a></p>
-                    </form>        
-                    <p>Não tem uma conta? <a href="{% url 'register' %}">Registre-se aqui</a></p>
+
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+
+                        {% if form.instance.pk %}
+                        <a href="{% url 'detalhe_espaco' form.instance.espaco_id %}" class="btn btn-secondary">Cancelar</a>
+                        {% else %}
+                            <a href="#" onclick="window.history.back();" class="btn btn-secondary">Cancelar</a>
+                        {% endif %}
+                    </form>
                      
                 </div>   
 

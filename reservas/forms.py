@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from .models import Reserva
+from .models import EspacoCoworking
 
 
 
@@ -56,3 +57,12 @@ class ReservaForm(forms.ModelForm):
                 raise ValidationError('Já existe uma reserva para este horário.')
 
         return cleaned_data
+    
+ 
+
+class EspacoCoworkingForm(forms.ModelForm):
+    print('Forms -> EspacoCoworkingForm');
+    class Meta:
+        model = EspacoCoworking
+        fields = '__all__'  # Ou especifique os campos que você quer exibir
+        exclude = ['proprietario']  # Não permita que o proprietário seja alterado        

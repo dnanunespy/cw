@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import EspacoCoworking, Reserva, RecursosEspacoCoworking
-from .forms import ReservaForm
+from .forms import ReservaForm, EspacoCoworkingForm
 from django.shortcuts import render
 
 from django.shortcuts import render
@@ -82,6 +82,71 @@ def detalhe_espaco(request, espaco_id):
 
     return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form, 'recursos': recursos})
 
+
+
+
+@login_required
+def editar_espaco(request, pk):
+    espaco = get_object_or_404(EspacoCoworking, pk=pk)
+
+    # Verifica se o usuário logado é o proprietário do espaço
+    if espaco.proprietario != request.user:
+        return redirect('pagina_inicial')
+
+    if request.method == 'POST':
+        form = EspacoCoworkingForm(request.POST, request.FILES, instance=espaco)
+        if form.is_valid():
+            form.save()
+            return redirect('detalhe_espaco', espaco_id=espaco.pk)
+    else:
+        form = EspacoCoworkingForm(instance=espaco)
+
+    return render(request, 'editar_espaco.html', {'form': form})
+
+
+@login_required
+def editar_espaco_coworking(request, espaco_id=None):
+    if espaco_id:  # Se o pk existir, estamos editando um espaço
+        espaco = get_object_or_404(EspacoCoworking, pk=espaco_id)
+    else:  # Se não houver pk, estamos criando um novo espaço
+        espaco = None
+
+    if request.method == 'POST':
+        print('------ entrou no post')
+
+        # Cria um dicionário a partir de request.POST
+        post_data = request.POST.copy()  # Copia os dados para um dicionário mutável
+
+        # Substitui a vírgula por ponto no campo preco_por_hora
+        if 'preco_por_hora' in post_data:
+            post_data['preco_por_hora'] = post_data['preco_por_hora'].replace(',', '.')
+
+        form = EspacoCoworkingForm(post_data, request.FILES, instance=espaco)
+        print('------ 2')
+        
+
+        print(form.errors)
+        if form.is_valid():
+            print('------ 3')
+            espaco = form.save(commit=False)
+
+            print('------ 4')
+            espaco.proprietario = request.user  # Define o proprietário como o usuário logado
+            print('------ 5')
+            espaco.save()
+            print('------ 6')
+            return redirect('detalhe_espaco', espaco_id=espaco.pk)  # Redireciona para a página de detalhes
+        print('------ 7')
+    else:
+        print('------ 8')
+        form = EspacoCoworkingForm(instance=espaco)
+        print('------ 9')
+
+    print('------ 10')
+    print(form.instance.preco_por_hora)
+    #espaco.preco_por_hora = str(espaco.preco_por_hora).replace('.', ',')
+    print(form.instance.preco_por_hora)
+    return render(request, 'reservas/editar_espaco_coworking.html', {'form': form})
 
 
 

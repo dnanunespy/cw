@@ -85,6 +85,8 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+print('client id:')
+print(os.getenv('GOOGLE_CLIENT_ID'))
 
 
 # configuração para pular a tela de confirmação

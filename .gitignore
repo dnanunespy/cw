@@ -1,4 +1,5 @@
 __pycache__
+/coworking_agendamento/settings.py
 *.*~
 *.pyc
 .idea
