@@ -121,30 +121,28 @@ def editar_espaco_coworking(request, espaco_id=None):
         if 'preco_por_hora' in post_data:
             post_data['preco_por_hora'] = post_data['preco_por_hora'].replace(',', '.')
 
-        form = EspacoCoworkingForm(post_data, request.FILES, instance=espaco)
-        print('------ 2')
-        
+        if 'latitude' in post_data:
+            post_data['latitude'] = post_data['latitude'].replace(',', '.')
 
+        if 'longitude' in post_data:
+            post_data['longitude'] = post_data['longitude'].replace(',', '.')        
+
+        form = EspacoCoworkingForm(post_data, request.FILES, instance=espaco)
+        
         print(form.errors)
         if form.is_valid():
-            print('------ 3')
+         
             espaco = form.save(commit=False)
 
-            print('------ 4')
+         
             espaco.proprietario = request.user  # Define o proprietário como o usuário logado
-            print('------ 5')
             espaco.save()
-            print('------ 6')
             return redirect('detalhe_espaco', espaco_id=espaco.pk)  # Redireciona para a página de detalhes
-        print('------ 7')
     else:
-        print('------ 8')
         form = EspacoCoworkingForm(instance=espaco)
-        print('------ 9')
 
-    print('------ 10')
     print(form.instance.preco_por_hora)
-    #espaco.preco_por_hora = str(espaco.preco_por_hora).replace('.', ',')
+
     print(form.instance.preco_por_hora)
     return render(request, 'reservas/editar_espaco_coworking.html', {'form': form})
 

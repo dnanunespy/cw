@@ -6,3 +6,27 @@ div{
 
 }
 
+#map {
+    height: 400px;
+    width: 100%;
+    color: red;
+}
+.containerMap {
+    margin-top: 20px;
+}
+.coord-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+input[type="text"] {
+    width: 200px;
+    margin-right: 10px;
+}
+button {
+    cursor: pointer;
+}
+#search-box {
+    margin-bottom: 10px;
+    width: 300px;
+}

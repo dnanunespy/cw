@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Editar Espaço de Coworking</title>
    
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   
 
     <!-- Vendor CSS Files -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -41,7 +41,7 @@
             
             <div class="row justify-content-center">    
                
-                <div class="col-lg-5">
+                <div class="col-lg-8">
                    
                        
                     <h2>Editar Espaço de Coworking: {{ form.instance.nome }}</h2>
@@ -89,15 +89,20 @@
                             <label for="id_foto" class="form-label">Foto</label>
                             <input type="file" name="foto" class="form-control" id="id_foto">
                         </div>
-            
+
+                        <div class="mb-3">
+                            <input id="search-box" type="text" placeholder="Digite o nome do lugar">
+                            <div id="map"></div>
+                        </div>
+
                         <div class="mb-3">
                             <label for="id_latitude" class="form-label">Latitude</label>
-                            <input type="number" step="0.000001" name="latitude" class="form-control" id="id_latitude" value="{{ form.instance.latitude|default:0 }}">
+                            <input type="text" pattern="^\d+(\,\d{0,2})?$" name="latitude" class="form-control" id="id_latitude" value="{{ form.instance.latitude|default:0 }}">
                         </div>
             
                         <div class="mb-3">
                             <label for="id_longitude" class="form-label">Longitude</label>
-                            <input type="number" step="0.000001" name="longitude" class="form-control" id="id_longitude" value="{{ form.instance.longitude|default:0 }}">
+                            <input type="text" pattern="^\d+(\,\d{0,2})?$" name="longitude" class="form-control" id="id_longitude" value="{{ form.instance.longitude|default:0 }}">
                         </div>
             
                         <div class="mb-3">
@@ -385,7 +390,83 @@
             // Substituir vírgula por ponto ao digitar
             this.value = this.value.replace(',', '.');
         });
+
+        document.getElementById('id_latitude').addEventListener('input', function (e) {
+            // Substituir vírgula por ponto ao digitar
+            this.value = this.value.replace(',', '.');
+        });
+
+        document.getElementById('id_longitude').addEventListener('input', function (e) {
+            // Substituir vírgula por ponto ao digitar
+            this.value = this.value.replace(',', '.');
+        });
+
+
     </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJeB-GheZ0ccCaj9xh6CTssXsbZU3uPI&libraries=places&callback=initMap" async defer></script>
+<script>
+    let map;
+    let marker;
+    let autocomplete;
+
+    function initMap() {
+        /*latI = -6.367033999999999;
+        longI = -48.0736499;*/        
+
+        latI = parseFloat(document.getElementById('id_latitude').value.replace(',', '.'));
+        longI = parseFloat(document.getElementById('id_longitude').value.replace(',', '.'));
+       
+        const initialCoords = { lat: latI, lng: longI }; // Exemplo: Rio de Janeiro, Brasil
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: initialCoords
+        });
+
+        marker = new google.maps.Marker({
+            position: initialCoords,
+            map: map
+        });
+
+        // Adiciona a caixa de pesquisa e ativa o autocomplete
+        const input = document.getElementById('search-box');
+        autocomplete = new google.maps.places.Autocomplete(input);
+        
+        // Quando o usuário seleciona um local da lista de autocomplete 
+        autocomplete.addListener('place_changed', function() {
+            const place = autocomplete.getPlace();
+
+            if (!place.geometry) {
+                return;
+            }
+
+            // Atualiza o mapa e o marcador com o local selecionado
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+
+            marker.setPosition(place.geometry.location);
+
+            // Atualiza as caixas de texto com as coordenadas
+            document.getElementById('id_latitude').value = place.geometry.location.lat();
+            document.getElementById('id_longitude').value = place.geometry.location.lng();
+        });
+
+        // Adiciona evento de clique no mapa para atualizar as coordenadas
+        map.addListener('click', function(event) {
+            const clickedLat = event.latLng.lat();
+            const clickedLng = event.latLng.lng();
+
+            marker.setPosition(event.latLng);
+
+            // Atualiza as caixas de texto com as coordenadas
+            document.getElementById('id_latitude').value = clickedLat;
+            document.getElementById('id_longitude').value = clickedLng;
+        });
+    }
+
+
+</script>
 </body>
 
 </html>
