@@ -1,6 +1,7 @@
 __pycache__
 /coworking_agendamento/settings.py
 *.*~
+*.sqlite3
 *.pyc
 .idea
 *venv*

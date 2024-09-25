@@ -23,43 +23,156 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main mt-5">
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <div class="section-title">
-                    <h2>Espaços de Coworking Disponíveis</h2>
-                </div>
-                <div class="row gy-4">
-                    {% for espaco in espacos %}
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card h-100 shadow-sm">
-                            <!-- Ajuste para buscar a imagem do diretório de mídia -->
-                            <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ espaco.nome }}</h5>
-                                <p class="card-text">Capacidade: {{ espaco.capacidade }} pessoas</p>
-                                <a href="{% url 'detalhe_espaco' espaco.id %}" class="btn btn-primary">Ver Detalhes</a>
+    <style>
+        .container-fluidEspacos {
+            margin-top: 80px; /* Para compensar o header fixo */
+        }
+        .row {
+            /* Removido display: flex para evitar conflitos com o mapa fixo */
+            justify-content: space-between;
+        }
+        .coworking-list {
+            width: 55%;
+            margin-right: 20px; /* Adiciona margem à direita */
+        }
+        .map-container {
+            width: 40%; /* Defina uma largura fixa se necessário */
+            height: 540px; /* Altura desejada do mapa */
+            position: fixed; /* Fixa o mapa na tela */
+            top: 80px;       /* Distância do topo (abaixo do header fixo) */
+            right: 20px;     /* Distância da direita */
+            z-index: 1000;   /* Para garantir que fique acima de outros elementos */
+        }
+        .pagination {
+            justify-content: center; /* Centraliza a paginação */
+        }
+    </style>
+
+    <section class="section">
+        <div class="container-fluidEspacos">
+
+            <div class="section-title">
+                <h2>Espaços de Coworking Disponíveis</h2>
+            </div>
+
+            <div class="row">
+                <!-- Div para coworkings -->
+                <div class="coworking-list">
+                    <center>
+                        <h3>Filtro de Busca</h3>
+                        <input type="text" id="searchInput" placeholder="Digite para buscar..." class="form-control mb-3">
+                    </center>
+
+                    <div class="row gy-4" id="listaEspacos">
+                        {% for espaco in page_obj %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ espaco.nome }}</h5>
+                                    <p class="card-text">{{ espaco.frase_destaque }}</p>
+                                    <hr>
+                                    <p class="description">Capacidade: {{ espaco.capacidade }} pessoas</p>
+                                    <p class="description">Internet: {{ espaco.velocidade_internet }}mbps</p>
+                                    <p class="description">Preço: R${{ espaco.preco_por_hora }}/h</p>
+                                    <a href="{% url 'detalhe_espaco' espaco.id %}" class="btn btn-primary">Ver Detalhes</a>
+                                </div>
                             </div>
                         </div>
+                        {% empty %}
+                        <p>Não há espaços de coworking disponíveis no momento.</p>
+                        {% endfor %}
                     </div>
-                    {% empty %}
-                    <p>Não há espaços de coworking disponíveis no momento.</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <!-- Inclua os scripts JS principais -->
+                    <!-- Adiciona os botões de paginação -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                            <li class="page-item {% if page_obj.number == num %}active{% endif %}"> 
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Próximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                     
+                </div>
+
+                <!-- Div para o mapa -->
+                
+                <div id="map" class="map-container"></div>
+
+                <!-- Div para o mapa -->
+                <div id="map" class="map-container"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Scripts para Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJeB-GheZ0ccCaj9xh6CTssXsbZU3uPI&callback=initMap" async defer></script>
+
+    <script>
+        // JavaScript para filtrar a lista
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            const items = document.querySelectorAll('#listaEspacos div');
+
+            items.forEach(function(item) {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Função que inicializa o mapa
+        function initMap() {
+            var espacos = JSON.parse('{{ espacosJ|escapejs }}');
+            var listaEnderecos = [];
+
+            espacos.forEach(function(espaco) {
+                listaEnderecos.push({
+                    lat: espaco.fields.latitude,
+                    lng: espaco.fields.longitude,
+                    title: espaco.fields.nome
+                });
+            });
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: listaEnderecos[0]
+            });
+
+            listaEnderecos.forEach(function(location) {
+                new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    title: location.title
+                });
+            });
+        }
+    </script>
+
+    <!-- Scripts principais -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'vendor/aos/aos.js' %}"></script>
-    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
-    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
-    <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
-    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
 
 </body>
 

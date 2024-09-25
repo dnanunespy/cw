@@ -61,7 +61,7 @@
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <a class="btn-getstarted" href="{% url 'lista_espacos' %}">Agendar Agora</a>
-                        <a class="btn-getstarted" href="{% url 'criar_espaco' %}">Cadastrar Espaço</a>
+                        <a class="btn-getstarted" href="{% url 'administrar_espacos' %}">Administrar coworkings</a>
                         <button type="submit" class="btn-getstarted">Logout</button>
                         
                     </form>
@@ -283,10 +283,6 @@
             </style>
 
             <div class="filtroEMapa">
-
-                
-
-                
 
                 <!-- Incluir a API JavaScript do Google Maps -->
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJeB-GheZ0ccCaj9xh6CTssXsbZU3uPI&callback=initMap" async defer></script>

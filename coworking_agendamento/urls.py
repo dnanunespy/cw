@@ -19,6 +19,7 @@ urlpatterns = [
     # Incluindo URLs da app 'reservas'
     path('reservas/', include('reservas.urls')),
     path('lista/', include('reservas.urls')),
+    path('administrar/', reservas_views.administrar_espacos, name='administrar_espacos'),
 
     # URLs para gerenciamento de espaços de coworking
     path('espaco/novo/', reservas_views.editar_espaco_coworking, name='criar_espaco'),

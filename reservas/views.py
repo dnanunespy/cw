@@ -11,6 +11,9 @@ from django.shortcuts import render
 from django.core.serializers import serialize
 import json
 
+from django.core.paginator import Paginator
+
+
 
 def index(request):
     espacos = EspacoCoworking.objects.all()
@@ -28,27 +31,6 @@ def index(request):
     }
 
     return render(request, 'reservas/index.html', context)
-
-
-'''@login_required
-def detalhe_espaco(request, espaco_id):
-    # Garante que o espaço pertence ao usuário
-    espaco = get_object_or_404(
-        EspacoCoworking, id=espaco_id, proprietario=request.user)
-   
-    if request.method == 'POST':
-        form = ReservaForm(request.POST)
-        if form.is_valid():
-            reserva = form.save(commit=False)
-            reserva.espaco = espaco
-            reserva.usuario = request.user
-            
-            reserva.save()
-            messages.success(request, 'Reserva feita com sucesso!')
-            return redirect('lista_espacos')
-    else:
-        form = ReservaForm()
-    return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form})'''
 
 
 
@@ -148,21 +130,52 @@ def editar_espaco_coworking(request, espaco_id=None):
 
 
 
-
-
-
-
-
-
-
 def lista_espacos(request):
+    # Obtém todos os espaços de coworking
+    espacos = EspacoCoworking.objects.all()
+    
+    # Configura a paginação: 6 espaços por página (você pode ajustar esse valor)
+    paginator = Paginator(espacos, 6)
+    
+    # Obtém o número da página atual a partir da URL (padrão é a primeira página)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Serializa os dados dos espaços para JSON
+    espacos_json = serialize('json', espacos)
+
+    # Contexto a ser passado para o template
+    context = {
+        'page_obj': page_obj,  # Passa os objetos paginados para o template
+        'espacosJ': espacos_json  # Serializado diretamente para o template
+    }
+    
+    return render(request, 'reservas/lista_espacos.html', context)
+
+
+def lista_espacos_original(request):
     #print("Lista_espacos!!!")
     espacos = EspacoCoworking.objects.all()
-    return render(request, 'reservas/lista_espacos.html', {'espacos': espacos})
+    
+    espacosJ = EspacoCoworking.objects.all()
+    espacos_json = serialize('json', espacosJ)
+    espacos_json = json.loads(espacos_json)
+
+    context = {
+        'espacos': espacos,
+        'espacosJ': json.dumps(espacos_json)
+    }
+    return render(request, 'reservas/lista_espacos.html', context)
+
+
+def administrar_espacos(request):
+    #print("Lista_espacos!!!")
+    espacos = EspacoCoworking.objects.filter(proprietario_id=request.user.id)
+    return render(request, 'reservas/administrar_coworkings.html', {'espacos': espacos})
+
+
 
 # View para registro de novos usuários
-
-
 def register(request):
     #print("Achou a função!!!!1")
     if request.method == 'POST':
