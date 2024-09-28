@@ -24,6 +24,7 @@ urlpatterns = [
     # URLs para gerenciamento de espaços de coworking
     path('espaco/novo/', reservas_views.editar_espaco_coworking, name='criar_espaco'),
     path('espaco/<int:espaco_id>/editar/', reservas_views.editar_espaco_coworking, name='editar_espaco'),
+    path('excluir-imagem/<int:imagem_id>/', reservas_views.excluir_imagem, name='excluir_imagem'),
     
 
     # Allauth (login via contas sociais)

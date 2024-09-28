@@ -310,7 +310,24 @@
                             <div class="col-lg-4 col-md-6">
                                 <div class="card h-100 shadow-sm">
                                     <!-- Ajuste para buscar a imagem do diretório de mídia -->
-                                    <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço">
+                                    <div id="carouselEspaco{{ espaco.id }}" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for imagem in espaco.imagens.all %}
+                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <img src="{{ imagem.imagem.url }}" class="d-block w-100" alt="Imagem do Espaço" style="height: 280px; object-fit: cover;">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        <!-- Controles do Carrossel -->
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselEspaco{{ espaco.id }}" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Anterior</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselEspaco{{ espaco.id }}" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Próximo</span>
+                                        </button>
+                                    </div>
                                     <div class="card-body">
                                         <h5 class="card-title">{{ espaco.nome }}</h5>
                                         <p class="card-text">{{ espaco.frase_destaque  }} </p>

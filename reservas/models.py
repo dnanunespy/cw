@@ -10,10 +10,10 @@ class EspacoCoworking(models.Model):
     descricao = models.TextField(blank=True, null=True)
     capacidade = models.IntegerField()
     preco_por_hora = models.DecimalField(max_digits=10, decimal_places=2)
-    foto = models.ImageField(upload_to='fotos/', blank=True, null=True)
+   #foto = models.ImageField(upload_to='fotos/', blank=True, null=True)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
-    prioridade = models.IntegerField(default=0)
+    prioridade = models.IntegerField(default=0, blank=True, null=True)
 
     # DETALHES DO ESPAÇO 
     #descricao_espaco = models.TextField(blank=True, null=True)
@@ -110,6 +110,14 @@ class EspacoCoworking(models.Model):
         verbose_name = "Espaço de Coworking"
         verbose_name_plural = "Espaços de Coworking"
         ordering = ['prioridade']  # Ordena os espaços pelo nome de forma padrão
+
+
+class ImagemEspacoCoworking(models.Model):
+    espaco = models.ForeignKey(EspacoCoworking, related_name='imagens', on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to='fotos/')
+
+    def __str__(self):
+        return f"Imagem de {self.espaco.nome}"        
 
 
 

@@ -65,9 +65,30 @@
 
                     <div class="row gy-4" id="listaEspacos">
                         {% for espaco in page_obj %}
+
                         <div class="col-lg-4 col-md-6">
                             <div class="card h-100 shadow-sm">
-                                <img src="{{ espaco.foto.url }}" class="card-img-top" alt="Imagem do Espaço" style="height: 200px; object-fit: cover;">
+                                <!-- Carrossel de Imagens -->
+                                <div id="carouselEspaco{{ espaco.id }}" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% for imagem in espaco.imagens.all %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <img src="{{ imagem.imagem.url }}" class="d-block w-100" alt="Imagem do Espaço" style="height: 220px; object-fit: cover;">
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <!-- Controles do Carrossel -->
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselEspaco{{ espaco.id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Anterior</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselEspaco{{ espaco.id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Próximo</span>
+                                    </button>
+                                </div>
+                        
+                                <!-- Informações do Espaço -->
                                 <div class="card-body">
                                     <h5 class="card-title">{{ espaco.nome }}</h5>
                                     <p class="card-text">{{ espaco.frase_destaque }}</p>
@@ -79,6 +100,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                         {% empty %}
                         <p>Não há espaços de coworking disponíveis no momento.</p>
                         {% endfor %}

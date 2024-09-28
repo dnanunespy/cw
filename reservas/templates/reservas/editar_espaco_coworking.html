@@ -7,8 +7,6 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Editar Espaço de Coworking</title>
-   
-   
 
     <!-- Vendor CSS Files -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -16,14 +14,39 @@
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
     <link href="{% static 'css/styleDna.css' %}" rel="stylesheet">
-    
-   
 
+    <style>
+        /* Estilo minimalista para as abas */
+        .nav-tabs .nav-link {
+            border: none;
+            background-color: transparent;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
 
+        .nav-tabs .nav-link:hover {
+            background-color: #f1f1f1;
+        }
+
+        .nav-tabs .nav-link.active {
+            border-bottom: 2px solid #007bff;
+            background-color: transparent;
+            color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            background-color: #fff;
+        }
+    </style>
 </head>
 
 <body>
-    
 
     <main class="main mt-6">
 
@@ -37,341 +60,198 @@
                 </div>
             </header>
 
-
-            
             <div class="row justify-content-center">    
-               
                 <div class="col-lg-8">
-                   
-                       
                     <h2>Editar Espaço de Coworking: {{ form.instance.nome }}</h2>
+
+                    <!-- Abas de navegação minimalistas -->
+                    <ul class=" nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                        <span class="nav-item" role="presentation">
+                            <a class="nav-link active" id="dados-cadastrais-tab" data-bs-toggle="tab" href="#dados-cadastrais" role="tab" aria-controls="dados-cadastrais" aria-selected="true">Dados Cadastrais</a>
+                        </span>
+                        <span class="nav-item" role="presentation">
+                            <a class="nav-link" id="endereco-tab" data-bs-toggle="tab" href="#endereco" role="tab" aria-controls="endereco" aria-selected="false">Endereço</a>
+                        </span>
+                        <span class="nav-item" role="presentation">
+                            <a class="nav-link" id="redes-sociais-tab" data-bs-toggle="tab" href="#redes-sociais" role="tab" aria-controls="redes-sociais" aria-selected="false">Redes Sociais</a>
+                        </span>
+                        <span class="nav-item" role="presentation">
+                            <a class="nav-link" id="comodidades-tab" data-bs-toggle="tab" href="#comodidades" role="tab" aria-controls="comodidades" aria-selected="false">Comodidades</a>
+                        </span>
+                    </ul>
+
+                    <!-- Conteúdo das abas -->
+                    <div class="tab-content" id="myTabContent">
+
+                        <!-- Aba 1: Dados Cadastrais -->
+                        <div class="tab-pane fade show active" id="dados-cadastrais" role="tabpanel" aria-labelledby="dados-cadastrais-tab">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="id_nome" class="form-label">Nome</label>
+                                    <input type="text" name="nome" class="form-control w-50" id="id_nome" value="{{ form.instance.nome|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_frase_destaque" class="form-label">Frase de Destaque</label>
+                                    <input type="text" name="frase_destaque" class="form-control w-100" id="id_frase_destaque" value="{{ form.instance.frase_destaque|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_descricao" class="form-label">Descrição</label>
+                                    <textarea name="descricao" class="form-control w-100" id="id_descricao" style="height: 300px;">{{ form.instance.descricao|default:'' }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_capacidade" class="form-label">Capacidade</label>
+                                    <input type="number" name="capacidade" class="form-control w-50" id="id_capacidade" value="{{ form.instance.capacidade|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_preco_por_hora" class="form-label">Preço por Hora</label>
+                                    <input type="text" name="preco_por_hora" class="form-control w-50" id="id_preco_por_hora" value="{{ form.instance.preco_por_hora|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_imagens" class="form-label">Imagens Existentes</label>
+                                    <div class="row">
+                                        {% for imagem in form.instance.imagens.all %}
+                                        <div class="col-md-3 mb-3">
+                                            <div class="card">
+                                                <img src="{{ imagem.imagem.url }}" class="card-img-top" alt="Imagem do Espaço" style="height: 150px; object-fit: cover;">
+                                                <div class="card-body text-center">
+                                                    <button type="button" class="btn btn-danger btn-sm delete-image-btn" data-image-id="{{ imagem.id }}">Excluir</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_imagens" class="form-label">Imagens</label>
+                                    <input type="file" name="imagens" class="form-control w-50" id="id_imagens" multiple>
+                                </div>
                             
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="id_nome" class="form-label">Nome</label>
-                            <input type="text" name="nome" class="form-control" id="id_nome" value="{{ form.instance.nome|default:'' }}">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="id_endereco" class="form-label">Endereço</label>
-                            <input type="text" name="endereco" class="form-control" id="id_endereco" value="{{ form.instance.endereco|default:'' }}">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="id_frase_destaque" class="form-label">Frase de Destaque</label>
-                            <input type="text" name="frase_destaque" class="form-control" id="id_frase_destaque" value="{{ form.instance.frase_destaque|default:'' }}">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="id_descricao" class="form-label">Descrição</label>
-                            <textarea name="descricao" class="form-control" id="id_descricao">{{ form.instance.descricao|default:'' }}</textarea>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="id_capacidade" class="form-label">Capacidade</label>
-                            <input type="number" name="capacidade" class="form-control" id="id_capacidade" value="{{ form.instance.capacidade|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_preco_por_hora" class="form-label">Velocidade da internet</label>
-                            <input type="text"  name="velocidade_internet" class="form-control" id="id_velocidade_internet" value="{{ form.instance.velocidade_internet|default:'' }}">
                         </div>
 
-                        <div class="mb-3">
-                            <label for="id_velocidade_internet" class="form-label">Preço por Hora</label>
-                            <input type="text" pattern="^\d+(\,\d{0,2})?$"  name="preco_por_hora" class="form-control" id="id_preco_por_hora" value="{{ form.instance.preco_por_hora }}">
-                        </div>                        
-                        
-            
-                        <div class="mb-3">
-                            <label for="id_foto" class="form-label">Foto</label>
-                            <input type="file" name="foto" class="form-control" id="id_foto">
+                        <!-- Aba 2: Endereço -->
+                        <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="endereco-tab">
+                            <form method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="id_endereco" class="form-label">Endereço</label>
+                                    <input type="text" name="endereco" class="form-control w-50" id="id_endereco" value="{{ form.instance.endereco|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_cep" class="form-label">CEP</label>
+                                    <input type="text" name="cep" class="form-control w-50" id="id_cep" value="{{ form.instance.cep|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_latitude" class="form-label">Latitude</label>
+                                    <input type="text" name="latitude" class="form-control w-50" id="id_latitude" value="{{ form.instance.latitude|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_longitude" class="form-label">Longitude</label>
+                                    <input type="text" name="longitude" class="form-control w-50" id="id_longitude" value="{{ form.instance.longitude|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <input id="search-box" type="text" placeholder="Digite o nome do lugar">
+                                    <div id="map"></div>
+                                </div>
+                            
                         </div>
 
-                        <div class="mb-3">
-                            <input id="search-box" type="text" placeholder="Digite o nome do lugar">
-                            <div id="map"></div>
+                        <!-- Aba 3: Redes Sociais -->
+                        <div class="tab-pane fade" id="redes-sociais" role="tabpanel" aria-labelledby="redes-sociais-tab">
+                            <form method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="id_instagram" class="form-label">Instagram</label>
+                                    <input type="url" name="instagram" class="form-control w-50" id="id_instagram" value="{{ form.instance.instagram|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_facebook" class="form-label">Facebook</label>
+                                    <input type="url" name="facebook" class="form-control w-50" id="id_facebook" value="{{ form.instance.facebook|default:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_linkedin" class="form-label">LinkedIn</label>
+                                    <input type="url" name="linkedin" class="form-control w-50" id="id_linkedin" value="{{ form.instance.linkedin|default:'' }}">
+                                </div>
+                           
                         </div>
 
-                        <div class="mb-3">
-                            <label for="id_latitude" class="form-label">Latitude</label>
-                            <input type="text" pattern="^\d+(\,\d{0,2})?$" name="latitude" class="form-control" id="id_latitude" value="{{ form.instance.latitude|default:0 }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_longitude" class="form-label">Longitude</label>
-                            <input type="text" pattern="^\d+(\,\d{0,2})?$" name="longitude" class="form-control" id="id_longitude" value="{{ form.instance.longitude|default:0 }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_prioridade" class="form-label">Prioridade</label>
-                            <input type="number" name="prioridade" class="form-control" id="id_prioridade" value="{{ form.instance.prioridade|default:0 }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_palavras_chave" class="form-label">Palavras-Chave</label>
-                            <textarea name="palavras_chave" class="form-control" id="id_palavras_chave">{{ form.instance.palavras_chave|default:'' }}</textarea>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_instagram" class="form-label">Instagram</label>
-                            <input type="url" name="instagram" class="form-control" id="id_instagram" value="{{ form.instance.instagram|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_facebook" class="form-label">Facebook</label>
-                            <input type="url" name="facebook" class="form-control" id="id_facebook" value="{{ form.instance.facebook|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_linkedin" class="form-label">LinkedIn</label>
-                            <input type="url" name="linkedin" class="form-control" id="id_linkedin" value="{{ form.instance.linkedin|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_nome_espaco" class="form-label">Nome do Espaço</label>
-                            <input type="text" name="nome_espaco" class="form-control" id="id_nome_espaco" value="{{ form.instance.nome_espaco|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_razao_social" class="form-label">Razão Social</label>
-                            <input type="text" name="razao_social" class="form-control" id="id_razao_social" value="{{ form.instance.razao_social|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_cep" class="form-label">CEP</label>
-                            <input type="text" name="cep" class="form-control" id="id_cep" value="{{ form.instance.cep|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_pais" class="form-label">País</label>
-                            <input type="text" name="pais" class="form-control" id="id_pais" value="{{ form.instance.pais|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_uf" class="form-label">UF</label>
-                            <input type="text" name="uf" class="form-control" id="id_uf" value="{{ form.instance.uf|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_cidade" class="form-label">Cidade</label>
-                            <input type="text" name="cidade" class="form-control" id="id_cidade" value="{{ form.instance.cidade|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_bairro" class="form-label">Bairro</label>
-                            <input type="text" name="bairro" class="form-control" id="id_bairro" value="{{ form.instance.bairro|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_logradouro" class="form-label">Logradouro</label>
-                            <input type="text" name="logradouro" class="form-control" id="id_logradouro" value="{{ form.instance.logradouro|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_numero" class="form-label">Número</label>
-                            <input type="text" name="numero" class="form-control" id="id_numero" value="{{ form.instance.numero|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_complemento" class="form-label">Complemento</label>
-                            <input type="text" name="complemento" class="form-control" id="id_complemento" value="{{ form.instance.complemento|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_logo" class="form-label">Logo</label>
-                            <input type="file" name="logo" class="form-control" id="id_logo">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_foto_horizontal" class="form-label">Foto Horizontal</label>
-                            <input type="file" name="foto_horizontal" class="form-control" id="id_foto_horizontal">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_nome_proprietario" class="form-label">Nome do Proprietário</label>
-                            <input type="text" name="nome_proprietario" class="form-control" id="id_nome_proprietario" value="{{ form.instance.nome_proprietario|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_email_proprietario" class="form-label">Email do Proprietário</label>
-                            <input type="email" name="email_proprietario" class="form-control" id="id_email_proprietario" value="{{ form.instance.email_proprietario|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_telefone_proprietario" class="form-label">Telefone do Proprietário</label>
-                            <input type="text" name="telefone_proprietario" class="form-control" id="id_telefone_proprietario" value="{{ form.instance.telefone_proprietario|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_nome_gerente" class="form-label">Nome do Gerente</label>
-                            <input type="text" name="nome_gerente" class="form-control" id="id_nome_gerente" value="{{ form.instance.nome_gerente|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_email_gerente" class="form-label">Email do Gerente</label>
-                            <input type="email" name="email_gerente" class="form-control" id="id_email_gerente" value="{{ form.instance.email_gerente|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_telefone_gerente" class="form-label">Telefone do Gerente</label>
-                            <input type="text" name="telefone_gerente" class="form-control" id="id_telefone_gerente" value="{{ form.instance.telefone_gerente|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_titular_conta" class="form-label">Titular da Conta</label>
-                            <input type="text" name="titular_conta" class="form-control" id="id_titular_conta" value="{{ form.instance.titular_conta|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_banco" class="form-label">Banco</label>
-                            <input type="text" name="banco" class="form-control" id="id_banco" value="{{ form.instance.banco|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_agencia" class="form-label">Agência</label>
-                            <input type="text" name="agencia" class="form-control" id="id_agencia" value="{{ form.instance.agencia|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_conta" class="form-label">Conta</label>
-                            <input type="text" name="conta" class="form-control" id="id_conta" value="{{ form.instance.conta|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_tipo_conta" class="form-label">Tipo de Conta</label>
-                            <input type="text" name="tipo_conta" class="form-control" id="id_tipo_conta" value="{{ form.instance.tipo_conta|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_tipo_pix" class="form-label">Tipo de PIX</label>
-                            <input type="text" name="tipo_pix" class="form-control" id="id_tipo_pix" value="{{ form.instance.tipo_pix|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_pix" class="form-label">PIX</label>
-                            <input type="text" name="pix" class="form-control" id="id_pix" value="{{ form.instance.pix|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_cafe" class="form-label">Café</label>
-                            <input type="checkbox" name="cafe" id="id_cafe" {% if form.instance.cafe %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_cha" class="form-label">Chá</label>
-                            <input type="checkbox" name="cha" id="id_cha" {% if form.instance.cha %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_massagem" class="form-label">Massagem</label>
-                            <input type="checkbox" name="massagem" id="id_massagem" {% if form.instance.massagem %}checked{% endif %}>
-                        </div>
-            
-            
-                        <div class="mb-3">
-                            <label for="id_wifi" class="form-label">Wi-Fi</label>
-                            <input type="checkbox" name="wifi" id="id_wifi" {% if form.instance.wifi %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_acessibilidade" class="form-label">Acessibilidade</label>
-                            <input type="checkbox" name="acessibilidade" id="id_acessibilidade" {% if form.instance.acessibilidade %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_acesso24h" class="form-label">Acesso 24h</label>
-                            <input type="checkbox" name="acesso24h" id="id_acesso24h" {% if form.instance.acesso24h %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_playground_kids" class="form-label">Playground Kids</label>
-                            <input type="checkbox" name="playground_kids" id="id_playground_kids" {% if form.instance.playground_kids %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_ar_condicionado" class="form-label">Ar Condicionado</label>
-                            <input type="checkbox" name="ar_condicionado" id="id_ar_condicionado" {% if form.instance.ar_condicionado %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_area_alimentacao" class="form-label">Área de Alimentação</label>
-                            <input type="checkbox" name="area_alimentacao" id="id_area_alimentacao" {% if form.instance.area_alimentacao %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_biblioteca" class="form-label">Biblioteca</label>
-                            <input type="checkbox" name="biblioteca" id="id_biblioteca" {% if form.instance.biblioteca %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_cabine_call" class="form-label">Cabine Call</label>
-                            <input type="checkbox" name="cabine_call" id="id_cabine_call" {% if form.instance.cabine_call %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_cozinha" class="form-label">Cozinha</label>
-                            <input type="checkbox" name="cozinha" id="id_cozinha" {% if form.instance.cozinha %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_espaco_pet" class="form-label">Espaço Pet</label>
-                            <input type="checkbox" name="espaco_pet" id="id_espaco_pet" {% if form.instance.espaco_pet %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_espaco_convivencia" class="form-label">Espaço de Convivência</label>
-                            <input type="checkbox" name="espaco_convivencia" id="id_espaco_convivencia" {% if form.instance.espaco_convivencia %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_lounge" class="form-label">Lounge</label>
-                            <input type="checkbox" name="lounge" id="id_lounge" {% if form.instance.lounge %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_galeria_arte" class="form-label">Galeria de Arte</label>
-                            <input type="checkbox" name="galeria_arte" id="id_galeria_arte" {% if form.instance.galeria_arte %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_geladeira" class="form-label">Geladeira</label>
-                            <input type="checkbox" name="geladeira" id="id_geladeira" {% if form.instance.geladeira %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_gerador_eletricidade" class="form-label">Gerador de Eletricidade</label>
-                            <input type="checkbox" name="gerador_eletricidade" id="id_gerador_eletricidade" {% if form.instance.gerador_eletricidade %}checked{% endif %}>
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_refrigerador" class="form-label">Refrigerador</label>
-                            <input type="checkbox" name="refrigerador" id="id_refrigerador" {% if form.instance.refrigerador %}checked{% endif %}>
+                        <!-- Aba 4: Comodidades -->
+                        <div class="tab-pane fade" id="comodidades" role="tabpanel" aria-labelledby="comodidades-tab">
+                            <form method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="id_wifi" class="form-label">Wi-Fi</label>
+                                    <input type="checkbox" name="wifi" id="id_wifi" {% if form.instance.wifi %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_acessibilidade" class="form-label">Acessibilidade</label>
+                                    <input type="checkbox" name="acessibilidade" id="id_acessibilidade" {% if form.instance.acessibilidade %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_acesso24h" class="form-label">Acesso 24h</label>
+                                    <input type="checkbox" name="acesso24h" id="id_acesso24h" {% if form.instance.acesso24h %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_playground_kids" class="form-label">Playground Kids</label>
+                                    <input type="checkbox" name="playground_kids" id="id_playground_kids" {% if form.instance.playground_kids %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_ar_condicionado" class="form-label">Ar Condicionado</label>
+                                    <input type="checkbox" name="ar_condicionado" id="id_ar_condicionado" {% if form.instance.ar_condicionado %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_area_alimentacao" class="form-label">Área de Alimentação</label>
+                                    <input type="checkbox" name="area_alimentacao" id="id_area_alimentacao" {% if form.instance.area_alimentacao %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_biblioteca" class="form-label">Biblioteca</label>
+                                    <input type="checkbox" name="biblioteca" id="id_biblioteca" {% if form.instance.biblioteca %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_cabine_call" class="form-label">Cabine Call</label>
+                                    <input type="checkbox" name="cabine_call" id="id_cabine_call" {% if form.instance.cabine_call %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_cozinha" class="form-label">Cozinha</label>
+                                    <input type="checkbox" name="cozinha" id="id_cozinha" {% if form.instance.cozinha %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_espaco_pet" class="form-label">Espaço Pet</label>
+                                    <input type="checkbox" name="espaco_pet" id="id_espaco_pet" {% if form.instance.espaco_pet %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_espaco_convivencia" class="form-label">Espaço de Convivência</label>
+                                    <input type="checkbox" name="espaco_convivencia" id="id_espaco_convivencia" {% if form.instance.espaco_convivencia %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_lounge" class="form-label">Lounge</label>
+                                    <input type="checkbox" name="lounge" id="id_lounge" {% if form.instance.lounge %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_galeria_arte" class="form-label">Galeria de Arte</label>
+                                    <input type="checkbox" name="galeria_arte" id="id_galeria_arte" {% if form.instance.galeria_arte %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_geladeira" class="form-label">Geladeira</label>
+                                    <input type="checkbox" name="geladeira" id="id_geladeira" {% if form.instance.geladeira %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_gerador_eletricidade" class="form-label">Gerador de Eletricidade</label>
+                                    <input type="checkbox" name="gerador_eletricidade" id="id_gerador_eletricidade" {% if form.instance.gerador_eletricidade %}checked{% endif %}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_refrigerador" class="form-label">Refrigerador</label>
+                                    <input type="checkbox" name="refrigerador" id="id_refrigerador" {% if form.instance.refrigerador %}checked{% endif %}>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+                            </form>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="id_outros_diferenciais" class="form-label">Outros Diferenciais</label>
-                            <input type="text" name="outros_diferenciais" class="form-control" id="id_outros_diferenciais" value="{{ form.instance.outros_diferenciais|default:'' }}">
-                        </div>
-            
-                        <div class="mb-3">
-                            <label for="id_localizacao" class="form-label">Localização</label>
-                            <textarea name="localizacao" class="form-control" id="id_localizacao">{{ form.instance.localizacao|default:'' }}</textarea>
-                        </div>
-            
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </form>
-                     
-                </div>   
+                    </div>
 
+                    
+                </div>
             </div>
         </div>
-        
-    </main> 
 
-
+    </main>
 
     <!-- Vendor JS Files -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -382,91 +262,89 @@
     <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
 
-    <!-- Main JS File -->
-    <script src="{% static 'js/main.js' %}"></script>
-
     <script>
         document.getElementById('id_preco_por_hora').addEventListener('input', function (e) {
-            // Substituir vírgula por ponto ao digitar
             this.value = this.value.replace(',', '.');
         });
 
         document.getElementById('id_latitude').addEventListener('input', function (e) {
-            // Substituir vírgula por ponto ao digitar
             this.value = this.value.replace(',', '.');
         });
 
         document.getElementById('id_longitude').addEventListener('input', function (e) {
-            // Substituir vírgula por ponto ao digitar
             this.value = this.value.replace(',', '.');
         });
-
-
     </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJeB-GheZ0ccCaj9xh6CTssXsbZU3uPI&libraries=places&callback=initMap" async defer></script>
-<script>
-    let map;
-    let marker;
-    let autocomplete;
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJeB-GheZ0ccCaj9xh6CTssXsbZU3uPI&libraries=places&callback=initMap" async defer></script>
+    <script>
+        let map;
+        let marker;
+        let autocomplete;
 
-    function initMap() {
-        /*latI = -6.367033999999999;
-        longI = -48.0736499;*/        
+        function initMap() {
+            const latI = parseFloat(document.getElementById('id_latitude').value.replace(',', '.'));
+            const longI = parseFloat(document.getElementById('id_longitude').value.replace(',', '.'));
+            const initialCoords = { lat: latI, lng: longI };
 
-        latI = parseFloat(document.getElementById('id_latitude').value.replace(',', '.'));
-        longI = parseFloat(document.getElementById('id_longitude').value.replace(',', '.'));
-       
-        const initialCoords = { lat: latI, lng: longI }; // Exemplo: Rio de Janeiro, Brasil
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: initialCoords
+            });
 
-        map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: initialCoords
+            marker = new google.maps.Marker({
+                position: initialCoords,
+                map: map
+            });
+
+            const input = document.getElementById('search-box');
+            autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.addListener('place_changed', function() {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    return;
+                }
+                map.setCenter(place.geometry.location);
+                map.setZoom(15);
+                marker.setPosition(place.geometry.location);
+                document.getElementById('id_latitude').value = place.geometry.location.lat();
+                document.getElementById('id_longitude').value = place.geometry.location.lng();
+            });
+
+            map.addListener('click', function(event) {
+                const clickedLat = event.latLng.lat();
+                const clickedLng = event.latLng.lng();
+                marker.setPosition(event.latLng);
+                document.getElementById('id_latitude').value = clickedLat;
+                document.getElementById('id_longitude').value = clickedLng;
+            });
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-image-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const imageId = this.getAttribute('data-image-id');
+                    if (confirm('Tem certeza que deseja excluir esta imagem?')) {
+                        fetch(`/excluir-imagem/${imageId}/`, {
+                            method: 'POST',
+                            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                        }).then(response => {
+                            if (response.ok) {
+                                this.closest('.col-md-3').remove();
+                            } else {
+                                alert('Erro ao excluir a imagem.');
+                            }
+                        });
+                    }
+                });
+            });
         });
+    </script>
 
-        marker = new google.maps.Marker({
-            position: initialCoords,
-            map: map
-        });
-
-        // Adiciona a caixa de pesquisa e ativa o autocomplete
-        const input = document.getElementById('search-box');
-        autocomplete = new google.maps.places.Autocomplete(input);
-        
-        // Quando o usuário seleciona um local da lista de autocomplete 
-        autocomplete.addListener('place_changed', function() {
-            const place = autocomplete.getPlace();
-
-            if (!place.geometry) {
-                return;
-            }
-
-            // Atualiza o mapa e o marcador com o local selecionado
-            map.setCenter(place.geometry.location);
-            map.setZoom(15);
-
-            marker.setPosition(place.geometry.location);
-
-            // Atualiza as caixas de texto com as coordenadas
-            document.getElementById('id_latitude').value = place.geometry.location.lat();
-            document.getElementById('id_longitude').value = place.geometry.location.lng();
-        });
-
-        // Adiciona evento de clique no mapa para atualizar as coordenadas
-        map.addListener('click', function(event) {
-            const clickedLat = event.latLng.lat();
-            const clickedLng = event.latLng.lng();
-
-            marker.setPosition(event.latLng);
-
-            // Atualiza as caixas de texto com as coordenadas
-            document.getElementById('id_latitude').value = clickedLat;
-            document.getElementById('id_longitude').value = clickedLng;
-        });
-    }
-
-
-</script>
 </body>
 
 </html>

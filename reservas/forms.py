@@ -61,8 +61,10 @@ class ReservaForm(forms.ModelForm):
  
 
 class EspacoCoworkingForm(forms.ModelForm):
-    print('Forms -> EspacoCoworkingForm');
+    # Campo para upload de múltiplas imagens
+    imagens = forms.FileField(required=False, widget=forms.FileInput(), help_text="Selecione as imagens para upload")
+
     class Meta:
         model = EspacoCoworking
-        fields = '__all__'  # Ou especifique os campos que você quer exibir
+        fields = '__all__'
         exclude = ['proprietario']  # Não permita que o proprietário seja alterado        

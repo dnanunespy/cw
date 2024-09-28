@@ -3,8 +3,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .models import EspacoCoworking, Reserva, RecursosEspacoCoworking
+from django.http import JsonResponse
+from .models import EspacoCoworking, Reserva, RecursosEspacoCoworking, ImagemEspacoCoworking
 from .forms import ReservaForm, EspacoCoworkingForm
+
+
 from django.shortcuts import render
 
 from django.shortcuts import render
@@ -99,7 +102,7 @@ def editar_espaco_coworking(request, espaco_id=None):
         # Cria um dicionário a partir de request.POST
         post_data = request.POST.copy()  # Copia os dados para um dicionário mutável
 
-        # Substitui a vírgula por ponto no campo preco_por_hora
+        # Substitui a vírgula por ponto nos campos de preço e coordenadas
         if 'preco_por_hora' in post_data:
             post_data['preco_por_hora'] = post_data['preco_por_hora'].replace(',', '.')
 
@@ -107,26 +110,36 @@ def editar_espaco_coworking(request, espaco_id=None):
             post_data['latitude'] = post_data['latitude'].replace(',', '.')
 
         if 'longitude' in post_data:
-            post_data['longitude'] = post_data['longitude'].replace(',', '.')        
-
-        form = EspacoCoworkingForm(post_data, request.FILES, instance=espaco)
+            post_data['longitude'] = post_data['longitude'].replace(',', '.')
         
+        # Formulário principal do espaço de coworking
+        form = EspacoCoworkingForm(post_data, request.FILES, instance=espaco)
         print(form.errors)
-        if form.is_valid():
-         
-            espaco = form.save(commit=False)
 
-         
+        if form.is_valid():
+            espaco = form.save(commit=False)
             espaco.proprietario = request.user  # Define o proprietário como o usuário logado
             espaco.save()
-            return redirect('detalhe_espaco', espaco_id=espaco.pk)  # Redireciona para a página de detalhes
+
+            # Agora processa as múltiplas imagens carregadas
+            imagens = request.FILES.getlist('imagens')
+            for imagem in imagens:
+                ImagemEspacoCoworking.objects.create(espaco=espaco, imagem=imagem)
+
+            return redirect('administrar_espacos')  # Redireciona para a página de detalhes
     else:
         form = EspacoCoworkingForm(instance=espaco)
 
-    print(form.instance.preco_por_hora)
-
-    print(form.instance.preco_por_hora)
     return render(request, 'reservas/editar_espaco_coworking.html', {'form': form})
+
+
+@login_required
+def excluir_imagem(request, imagem_id):
+    if request.method == 'POST':
+        imagem = get_object_or_404(ImagemEspacoCoworking, id=imagem_id)
+        imagem.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 
 
