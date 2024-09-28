@@ -94,7 +94,7 @@ def editar_espaco_coworking(request, espaco_id=None):
     if espaco_id:  # Se o pk existir, estamos editando um espaço
         espaco = get_object_or_404(EspacoCoworking, pk=espaco_id)
     else:  # Se não houver pk, estamos criando um novo espaço
-        espaco = None
+        espaco = EspacoCoworking()  # Cria uma nova instância sem pk
 
     if request.method == 'POST':
         print('------ entrou no post')
@@ -111,7 +111,7 @@ def editar_espaco_coworking(request, espaco_id=None):
 
         if 'longitude' in post_data:
             post_data['longitude'] = post_data['longitude'].replace(',', '.')
-        
+
         # Formulário principal do espaço de coworking
         form = EspacoCoworkingForm(post_data, request.FILES, instance=espaco)
         print(form.errors)
@@ -119,18 +119,19 @@ def editar_espaco_coworking(request, espaco_id=None):
         if form.is_valid():
             espaco = form.save(commit=False)
             espaco.proprietario = request.user  # Define o proprietário como o usuário logado
-            espaco.save()
+            espaco.save()  # Salva o espaço antes de adicionar imagens
 
             # Agora processa as múltiplas imagens carregadas
             imagens = request.FILES.getlist('imagens')
             for imagem in imagens:
                 ImagemEspacoCoworking.objects.create(espaco=espaco, imagem=imagem)
 
-            return redirect('administrar_espacos')  # Redireciona para a página de detalhes
+            return redirect('administrar_espacos')  # Redireciona para a página de administração de espaços
+
     else:
         form = EspacoCoworkingForm(instance=espaco)
 
-    return render(request, 'reservas/editar_espaco_coworking.html', {'form': form})
+    return render(request, 'reservas/editar_espaco_coworking.html', {'form': form, 'espaco': espaco})
 
 
 @login_required

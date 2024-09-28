@@ -96,6 +96,10 @@
                                     <input type="text" name="frase_destaque" class="form-control w-100" id="id_frase_destaque" value="{{ form.instance.frase_destaque|default:'' }}">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="id_palavras_chave" class="form-label">Palavras-Chave</label>
+                                    <textarea name="palavras_chave" class="form-control w-50" id="id_palavras_chave">{{ form.instance.palavras_chave|default:'' }}</textarea>
+                                </div>
+                                <div class="mb-3">
                                     <label for="id_descricao" class="form-label">Descrição</label>
                                     <textarea name="descricao" class="form-control w-100" id="id_descricao" style="height: 300px;">{{ form.instance.descricao|default:'' }}</textarea>
                                 </div>
@@ -107,6 +111,13 @@
                                     <label for="id_preco_por_hora" class="form-label">Preço por Hora</label>
                                     <input type="text" name="preco_por_hora" class="form-control w-50" id="id_preco_por_hora" value="{{ form.instance.preco_por_hora|default:'' }}">
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="id_preco_por_hora" class="form-label">Velocidade da internet</label>
+                                    <input type="text"  name="velocidade_internet" class="form-control w-50" id="id_velocidade_internet" value="{{ form.instance.velocidade_internet|default:'' }}">
+                                </div>
+
+                                {% if espaco.id %}
                                 <div class="mb-3">
                                     <label for="id_imagens" class="form-label">Imagens Existentes</label>
                                     <div class="row">
@@ -122,6 +133,7 @@
                                         {% endfor %}
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div class="mb-3">
                                     <label for="id_imagens" class="form-label">Imagens</label>
                                     <input type="file" name="imagens" class="form-control w-50" id="id_imagens" multiple>
@@ -141,16 +153,16 @@
                                     <input type="text" name="cep" class="form-control w-50" id="id_cep" value="{{ form.instance.cep|default:'' }}">
                                 </div>
                                 <div class="mb-3">
+                                    <input id="search-box" type="text" class="form-control w-50" placeholder="Digite o nome do lugar">
+                                    <div id="map"></div>
+                                </div>
+                                <div class="mb-3">
                                     <label for="id_latitude" class="form-label">Latitude</label>
                                     <input type="text" name="latitude" class="form-control w-50" id="id_latitude" value="{{ form.instance.latitude|default:'' }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="id_longitude" class="form-label">Longitude</label>
                                     <input type="text" name="longitude" class="form-control w-50" id="id_longitude" value="{{ form.instance.longitude|default:'' }}">
-                                </div>
-                                <div class="mb-3">
-                                    <input id="search-box" type="text" placeholder="Digite o nome do lugar">
-                                    <div id="map"></div>
                                 </div>
                             
                         </div>
@@ -283,8 +295,16 @@
         let autocomplete;
 
         function initMap() {
-            const latI = parseFloat(document.getElementById('id_latitude').value.replace(',', '.'));
-            const longI = parseFloat(document.getElementById('id_longitude').value.replace(',', '.'));
+            latI = parseFloat(document.getElementById('id_latitude').value.replace(',', '.'));
+            longI = parseFloat(document.getElementById('id_longitude').value.replace(',', '.'));
+
+            if (isNaN(latI) || isNaN(longI) ) {
+                latI = -22.951916;
+                longI = -43.2104872;
+            }
+
+            
+
             const initialCoords = { lat: latI, lng: longI };
 
             map = new google.maps.Map(document.getElementById('map'), {
