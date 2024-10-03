@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Cadastrar Recurso do Espaço Coworking</title>
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
+    <link href="{% static 'css/styleDna.css' %}" rel="stylesheet">
+
+    <style>
+        .nav-tabs .nav-link {
+            border: none;
+            background-color: transparent;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #f1f1f1;
+        }
+
+        .nav-tabs .nav-link.active {
+            border-bottom: 2px solid #007bff;
+            background-color: transparent;
+            color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main mt-6">
+
+        <div class="container" data-aos="fade-up">
+
+            <header id="header" class="header d-flex align-items-center ">
+                <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+                    <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+                        <h1 class="sitename">Coworking Space</h1>
+                    </a>
+                </div>
+            </header>
+
+            <div class="row justify-content-center">    
+                <div class="col-lg-8">
+                    <h2>Cadastrar Recurso: {{ espaco.nome }}</h2>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_nome_recurso" class="form-label">Nome do Recurso</label>
+                            <input type="text" name="nome_recurso" class="form-control w-50" id="id_nome_recurso" value="{{ form.instance.nome_recurso|default:'' }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_descricao" class="form-label">Descrição</label>
+                            <textarea name="descricao" class="form-control w-100" id="id_descricao" style="height: 150px;">{{ form.instance.descricao|default:'' }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_quantidade" class="form-label">Quantidade</label>
+                            <input type="number" name="quantidade" class="form-control w-50" id="id_quantidade" value="{{ form.instance.quantidade|default:'' }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_disponivel" class="form-label">Disponível</label>
+                            <input type="checkbox" name="disponivel" id="id_disponivel" {% if form.instance.disponivel %}checked{% endif %}>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+</body>
+
+</html>

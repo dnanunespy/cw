@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .models import EspacoCoworking, Reserva, RecursosEspacoCoworking, ImagemEspacoCoworking
 from .forms import ReservaForm, EspacoCoworkingForm
+from .forms import RecursosEspacoCoworkingForm
+
 
 
 from django.shortcuts import render
@@ -43,10 +45,6 @@ def detalhe_espaco(request, espaco_id):
     espaco = get_object_or_404(EspacoCoworking, id=espaco_id)
     recursos = RecursosEspacoCoworking.objects.filter(espaco_coworking_id=espaco_id)
 
-    # Verifica se o usuário tem permissão para ver o espaço
-    #if espaco.proprietario != request.user and not is_coworking_admin(request.user):
-    #    return render(request, '403.html', status=403)
-
     if request.method == 'POST':
         form = ReservaForm(request.POST)
         if form.is_valid():
@@ -65,7 +63,15 @@ def detalhe_espaco(request, espaco_id):
     else:
         form = ReservaForm()
 
-    return render(request, 'reservas/detalhe_espaco.html', {'espaco': espaco, 'form': form, 'recursos': recursos})
+    # Lista de horas inteiras de 00:00 até 23:00
+    horas = ['{:02d}:00'.format(h) for h in range(24)]
+
+    return render(request, 'reservas/detalhe_espaco.html', {
+        'espaco': espaco,
+        'form': form,
+        'recursos': recursos,
+        'horas': horas  # Passando a lista de horas para o template
+    })
 
 
 
@@ -132,6 +138,25 @@ def editar_espaco_coworking(request, espaco_id=None):
         form = EspacoCoworkingForm(instance=espaco)
 
     return render(request, 'reservas/editar_espaco_coworking.html', {'form': form, 'espaco': espaco})
+
+
+@login_required
+def cadastrar_recurso_espaco(request, espaco_id):
+    espaco = get_object_or_404(EspacoCoworking, pk=espaco_id)
+
+    if request.method == 'POST':
+        form = RecursosEspacoCoworkingForm(request.POST)
+        if form.is_valid():
+            recurso = form.save(commit=False)
+            recurso.espaco_coworking = espaco
+            recurso.save()
+            return redirect('detalhe_espaco', espaco_id=espaco.id)
+    else:
+        form = RecursosEspacoCoworkingForm()
+
+    return render(request, 'reservas/cadastrar_recurso.html', {'form': form, 'espaco': espaco})
+
+
 
 
 @login_required

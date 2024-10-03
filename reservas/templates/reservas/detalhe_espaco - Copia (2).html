@@ -406,12 +406,13 @@
                     </style>
 
                     <div class="col-lg-4">
-                        <!-- Formulário de Reserva -->
+                        <!-- Formulário de Reserva   class="card h-100 shadow-sm"  -->
                         <div class="containerr">
                             <div class="card-body">
+                                
+		                        
                                 <form method="POST">
                                     {% csrf_token %}
-                                    
                                     <h4>Selecione recurso</h4>
                                     <select name="recurso" class="form-control">
                                         {% for recurso in recursos %}
@@ -419,32 +420,20 @@
                                         {% endfor %}
                                     </select>
 
-                                    <br/>
+                                    </br>
                                     <h4>Selecione uma data</h4>
                                     <p>{{ form.data_reserva }}</p>
+                                    <p>{{ form.hora_inicio }} {{ form.hora_fim }}</p>
 
-                                    <h4>Hora de início</h4>
-                                    <select name="hora_inicio" class="form-control">
-                                        {% for hora in horas %}
-                                            <option value="{{ hora }}">{{ hora }}</option>
-                                        {% endfor %}
-                                    </select>
 
-                                    <h4>Hora de fim</h4>
-                                    <select name="hora_fim" class="form-control">
-                                        {% for hora in horas %}
-                                            <option value="{{ hora }}">{{ hora }}</option>
-                                        {% endfor %}
-                                    </select>
-
-                                    <br/>
+                                    
+                                    
+                                    
                                     <button type="submit" class="btn btn-primary">Reservar</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <br>
                 <a href="{% url 'lista_espacos' %}" class="btn btn-primary">Voltar à lista de espaços</a>
@@ -464,66 +453,6 @@
     <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-        const recursoSelect = form.querySelector("select[name='recurso']");
-        const dataReservaInput = form.querySelector("input[name='data_reserva']");
-        const horaInicioSelect = form.querySelector("select[name='hora_inicio']");
-        const horaFimSelect = form.querySelector("select[name='hora_fim']");
-        const submitButton = form.querySelector("button[type='submit']");
-
-        form.addEventListener("submit", function (event) {
-            let valid = true;
-
-            // Função para extrair somente a parte do dia, mês e ano da data
-            function getDateWithoutTime(date) {
-                const year = date.getFullYear();
-                const month = date.getMonth();
-                const day = date.getDate();
-                return new Date(year, month, day);
-            }
-
-            const today = getDateWithoutTime(new Date());
-            const selectedDate = getDateWithoutTime(new Date(dataReservaInput.value));
-
-            // Verifica se todos os campos estão preenchidos
-            if (!recursoSelect.value) {
-                alert("Selecione um recurso.");
-                valid = false;
-            }
-
-            if (!dataReservaInput.value) {
-                alert("Selecione uma data de reserva.");
-                valid = false;
-            } else if (selectedDate < today) {
-                alert("A data de reserva não pode ser anterior à data de hoje.");
-                valid = false;
-            }
-
-            if (!horaInicioSelect.value) {
-                alert("Selecione a hora de início.");
-                valid = false;
-            }
-
-            if (!horaFimSelect.value) {
-                alert("Selecione a hora de fim.");
-                valid = false;
-            } else if (horaInicioSelect.value && horaFimSelect.value && horaInicioSelect.value >= horaFimSelect.value) {
-                alert("A hora de fim deve ser maior que a hora de início.");
-                valid = false;
-            }
-
-            // Se algum campo não estiver preenchido ou inválido, impede o envio do formulário
-            if (!valid) {
-                event.preventDefault();
-            }
-        });
-    });
-
-    </script>
-    
     
 
 </body>

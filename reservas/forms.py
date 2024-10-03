@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from .models import Reserva
 from .models import EspacoCoworking
+from .models import RecursosEspacoCoworking
 
 
 
@@ -14,7 +15,7 @@ from .models import EspacoCoworking
 class ReservaForm(forms.ModelForm):
     class Meta:
         model = Reserva
-        fields = [ 'data_reserva', 'hora_inicio', 'hora_fim']
+        fields = ['data_reserva', 'hora_inicio', 'hora_fim']
         widgets = {
             'data_reserva': forms.DateInput(attrs={'type': 'date'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time'}),
@@ -68,3 +69,9 @@ class EspacoCoworkingForm(forms.ModelForm):
         model = EspacoCoworking
         fields = '__all__'
         exclude = ['proprietario']  # Não permita que o proprietário seja alterado        
+
+
+class RecursosEspacoCoworkingForm(forms.ModelForm):
+    class Meta:
+        model = RecursosEspacoCoworking
+        fields = ['nome_recurso', 'descricao', 'quantidade', 'disponivel']
