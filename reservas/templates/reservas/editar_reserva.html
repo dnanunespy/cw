@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Editar Reserva</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
+</head>
+
+<body>
+    <style>
+        .custom-container {
+            max-width: 85%; /* Defina a porcentagem ou um valor fixo */
+        }
+    </style>
+    <main class="main mt-5">
+        <div class="container">
+            <header id="header" class="header d-flex align-items-center ">
+                <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+                    <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+                        <h1 class="sitename">Coworking Space</h1>
+                    </a>
+                </div>
+            </header>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <h2 class="mb-4">Editar Reserva</h2>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{% url 'listar_reservas' %}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

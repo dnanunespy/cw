@@ -35,13 +35,13 @@ class ReservaForm(forms.ModelForm):
 
         # Verifica se a data está no passado
         if data_reserva and data_reserva < timezone.now().date():
-            print('Data passada!')
+            print('Data passada! data_reserva: ' + str(data_reserva) + ' hoje: ' + str(timezone.now().date()))
             raise ValidationError('Não é possível fazer reservas para datas passadas.')
 
 
         # Verifica se o horário de início é anterior ao horário de fim
         if hora_inicio and hora_fim and hora_inicio >= hora_fim:
-            print('Hora errada!')
+            print('Hora errada! hora_inicio: ' + str(hora_inicio) + ' hora_fim: ' + str(hora_fim))
             raise ValidationError('O horário de início deve ser anterior ao horário de fim.')
        
 

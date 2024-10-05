@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Minhas Reservas</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'reservas/styles.css' %}">
+</head>
+
+<body>
+    <style>
+        .custom-container {
+            max-width: 85%; /* Defina a porcentagem ou um valor fixo */
+        }
+    </style>
+    <main class="container custom-container mt-5">
+        <div class="">
+            <header id="header" class="header d-flex align-items-center ">
+                <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+                    <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+                        <h1 class="sitename">Coworking Space</h1>
+                    </a>
+                </div>
+            </header>
+
+            <h2 class="mb-4">Minhas Reservas</h2>
+
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Espaço</th>
+                        <th>Data</th>
+                        <th>Hora Início</th>
+                        <th>Hora Fim</th>
+                        <th>Recurso</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.espaco.nome }}</td>
+                        <td>{{ reserva.data_reserva }}</td>
+                        <td>{{ reserva.hora_inicio }}</td>
+                        <td>{{ reserva.hora_fim }}</td>
+                        <td>{{ reserva.recurso.nome_recurso }}</td>
+                        <td>
+                            <a href="{% url 'editar_reserva' reserva.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'excluir_reserva' reserva.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <a href="{% url 'lista_espacos' %}" class="btn btn-secondary mt-4">Voltar</a>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

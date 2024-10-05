@@ -39,7 +39,7 @@ def index(request):
 
 
 
-
+#realizando reserva
 @login_required
 def detalhe_espaco(request, espaco_id):
     espaco = get_object_or_404(EspacoCoworking, id=espaco_id)
@@ -72,6 +72,36 @@ def detalhe_espaco(request, espaco_id):
         'recursos': recursos,
         'horas': horas  # Passando a lista de horas para o template
     })
+
+
+#editando reservas
+@login_required
+def listar_reservas(request):
+    reservas = Reserva.objects.filter(usuario=request.user)
+    return render(request, 'reservas/listar_reservas.html', {'reservas': reservas})
+
+@login_required
+def editar_reserva(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id, usuario=request.user)
+    if request.method == 'POST':
+        form = ReservaForm(request.POST, instance=reserva)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Reserva atualizada com sucesso!')
+            return redirect('listar_reservas')
+    else:
+        form = ReservaForm(instance=reserva)
+    return render(request, 'reservas/editar_reserva.html', {'form': form})
+
+@login_required
+def excluir_reserva(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id, usuario=request.user)
+    if request.method == 'POST':
+        reserva.delete()
+        messages.success(request, 'Reserva excluída com sucesso!')
+        return redirect('listar_reservas')
+    return render(request, 'reservas/excluir_reserva.html', {'reserva': reserva})
+
 
 
 

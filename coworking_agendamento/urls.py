@@ -26,6 +26,11 @@ urlpatterns = [
     path('espaco/<int:espaco_id>/cadastrar-recurso/', reservas_views.cadastrar_recurso_espaco, name='cadastrar_recurso'),
     path('espaco/<int:espaco_id>/editar/', reservas_views.editar_espaco_coworking, name='editar_espaco'),
     path('excluir-imagem/<int:imagem_id>/', reservas_views.excluir_imagem, name='excluir_imagem'),
+
+    #lista, edita e exclui reservas
+    path('minhas-reservas/', reservas_views.listar_reservas, name='listar_reservas'),
+    path('editar-reserva/<int:reserva_id>/', reservas_views.editar_reserva, name='editar_reserva'),
+    path('excluir-reserva/<int:reserva_id>/', reservas_views.excluir_reserva, name='excluir_reserva'),
     
 
     # Allauth (login via contas sociais)

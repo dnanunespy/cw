@@ -147,20 +147,11 @@ class RecursosEspacoCoworking(models.Model):
 
 
 
-
-
-
-
-
-
-
-
 class Reserva(models.Model):
     espaco = models.ForeignKey(EspacoCoworking, on_delete=models.CASCADE)
     usuario = models.ForeignKey( User, on_delete=models.CASCADE, blank=True, null=True)
     data_reserva = models.DateField()
-    recurso = models.ForeignKey(RecursosEspacoCoworking, on_delete=models.CASCADE)
-    
+    recurso = models.ForeignKey(RecursosEspacoCoworking, on_delete=models.CASCADE) 
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fim = models.TimeField(blank=True, null=True)
 

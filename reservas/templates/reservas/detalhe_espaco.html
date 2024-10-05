@@ -482,11 +482,15 @@
                 const year = date.getFullYear();
                 const month = date.getMonth();
                 const day = date.getDate();
+
                 return new Date(year, month, day);
             }
 
-            const today = getDateWithoutTime(new Date());
-            const selectedDate = getDateWithoutTime(new Date(dataReservaInput.value));
+            const today = new Date(); 
+           
+            const selectedDate = Date(dataReservaInput.value);
+            alert(selectedDate);
+            
 
             // Verifica se todos os campos estão preenchidos
             if (!recursoSelect.value) {
@@ -498,7 +502,7 @@
                 alert("Selecione uma data de reserva.");
                 valid = false;
             } else if (selectedDate < today) {
-                alert("A data de reserva não pode ser anterior à data de hoje.");
+                alert("A data de reserva não pode ser anterior à data de hoje. \n selecionada: " + selectedDate + " \n hoje: " + today);
                 valid = false;
             }
 

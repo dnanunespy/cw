@@ -38,7 +38,7 @@
         .map-container {
             width: 40%; /* Defina uma largura fixa se necessário */
             height: 540px; /* Altura desejada do mapa */
-            position: fixed; /* Fixa o mapa na tela */
+           /* position: fixed;  Fixa o mapa na tela */
             top: 80px;       /* Distância do topo (abaixo do header fixo) */
             right: 20px;     /* Distância da direita */
             z-index: 1000;   /* Para garantir que fique acima de outros elementos */
@@ -156,7 +156,7 @@
         document.getElementById('searchInput').addEventListener('keyup', function() {
             const filter = this.value.toLowerCase();
             const items = document.querySelectorAll('#listaEspacos div');
-
+    
             items.forEach(function(item) {
                 const text = item.textContent.toLowerCase();
                 if (text.includes(filter)) {
@@ -166,25 +166,54 @@
                 }
             });
         });
-
+    
         // Função que inicializa o mapa
         function initMap() {
             var espacos = JSON.parse('{{ espacosJ|escapejs }}');
             var listaEnderecos = [];
-
+    
             espacos.forEach(function(espaco) {
                 listaEnderecos.push({
-                    lat: espaco.fields.latitude,
-                    lng: espaco.fields.longitude,
+                    lat: parseFloat(espaco.fields.latitude),
+                    lng: parseFloat(espaco.fields.longitude),
                     title: espaco.fields.nome
                 });
             });
-
+    
+            // Define um fallback caso a localização do usuário não esteja disponível
+            var defaultLocation = listaEnderecos.length > 0 ? listaEnderecos[0] : { lat: -22.9068, lng: -43.1729 }; // Exemplo: Rio de Janeiro
+    
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 13,
-                center: listaEnderecos[0]
+                center: defaultLocation
             });
-
+    
+            // Obtém a localização do usuário e ajusta o centro do mapa
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        var userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        map.setCenter(userLocation); // Centraliza no usuário
+    
+                        // Adiciona um marcador para a localização do usuário
+                        new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: "Sua localização"
+                        });
+                    },
+                    function() {
+                        console.log("Usuário não permitiu acesso à localização ou ocorreu um erro.");
+                    }
+                );
+            } else {
+                console.log("Geolocalização não é suportada pelo navegador.");
+            }
+    
+            // Plota os coworkings no mapa
             listaEnderecos.forEach(function(location) {
                 new google.maps.Marker({
                     position: location,
@@ -194,6 +223,7 @@
             });
         }
     </script>
+    
 
     <!-- Scripts principais -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
